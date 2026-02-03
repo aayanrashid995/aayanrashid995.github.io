@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aayan Rashid Wahab - Cybersecurity Portfolio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -22,7 +20,6 @@
         }
 
         .skill-badge {
-            /* UPDATED: Changed from indigo to purple */
             @apply bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm font-medium px-4 py-2 rounded-full shadow-sm;
         }
         /* Hide scrollbar */
@@ -69,14 +66,11 @@
         }
 
         .dark #peeking-cat {
-             /* Optional: if you want the cat to be slightly transparent in dark mode */
             opacity: 0.9;
         }
     </style>
 
-    <!-- Tailwind Dark Mode Config -->
     <script>
-        // UPDATED: Default to dark mode unless 'light' is explicitly saved
         if (localStorage.theme === 'light') {
             document.documentElement.classList.remove('dark');
         } else {
@@ -107,35 +101,26 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased relative">
 
-    <!-- Header / Navbar -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg shadow-sm">
         <nav class="container mx-auto max-w-5xl px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-xl font-bold text-purple-600 dark:text-purple-400">
                 Aayan Rashid Wahab
             </a>
             <div class="flex items-center space-x-6">
-                <!-- Desktop Nav Links -->
                 <div class="hidden md:flex space-x-6">
                     <a href="#about" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">About</a>
-                    <a href="#more-about-me" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">More</a>
                     <a href="#projects" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Projects</a>
                     <a href="#experience" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Experience</a>
-                    <a href="#education" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Education</a>
                     <a href="#skills" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Skills</a>
                     <a href="#game" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Mini Game</a>
                     <a href="#contact" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Contact</a>
                 </div>
                 
-                <!-- Dark Mode Toggle -->
                 <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 focus:outline-none">
-                    <!-- UPDATED: Sun icon (for switching to light mode) is now an <img> tag -->
-                    <!-- Make sure to add 'sun-icon.png' to your folder! -->
                     <img id="theme-icon-light" src="sun-icon.png" alt="Light Mode" class="h-6 w-6 hidden">
-                    <!-- Moon icon (for switching to dark mode) -->
                     <svg id="theme-icon-dark" class="h-6 w-6 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
                 </button>
                 
-                <!-- Mobile Menu Button -->
                 <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-600 dark:text-gray-300">
                     <svg id="menu-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -146,13 +131,10 @@
                 </button>
             </div>
         </nav>
-        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2 bg-white dark:bg-gray-900/95 shadow-lg rounded-b-lg">
             <a href="#about" class="block mobile-menu-link">About</a>
-            <a href="#more-about-me" class="block mobile-menu-link">More About Me</a>
             <a href="#projects" class="block mobile-menu-link">Projects</a>
             <a href="#experience" class="block mobile-menu-link">Experience</a>
-            <a href="#education" class="block mobile-menu-link">Education</a>
             <a href="#skills" class="block mobile-menu-link">Skills</a>
             <a href="#game" class="block mobile-menu-link">Mini Game</a>
             <a href="#contact" class="block mobile-menu-link">Contact</a>
@@ -164,28 +146,23 @@
         </style>
     </header>
 
-    <!-- Main Content -->
     <main class="container mx-auto max-w-5xl px-6 pt-28 md:pt-32 pb-16">
 
-        <!-- Hero Section -->
         <section class="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-16">
             <div class="flex-1 text-center md:text-left">
                 <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
                     Hi, I'm <span class="text-purple-600 dark:text-purple-400">Aayan Rashid Wahab</span>
                 </h1>
-                <!-- START: Interactive Subtitle -->
                 <h2 id="scramble-text" 
                     class="text-xl md:text-2xl font-mono font-medium text-purple-600 dark:text-purple-400 mb-6 min-h-[56px] md:min-h-[32px]"
                     data-text-1="Secure Software Development"
-                    data-text-2="Cryptography & Threat Analysis"
-                    data-text-3="AI for Security Applications">
+                    data-text-2="AI Forensics & Threat Analysis"
+                    data-text-3="API Security & Governance">
                 </h2>
-                <!-- END: Interactive Subtitle -->
                 <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-xl mx-auto md:mx-0">
-                    I am a proactive Cyber Security undergraduate at GIKI ('27) with a passion for building and defending digital systems. I have hands-on experience in network sniffing, web app vulnerability analysis, and secure processor simulation.
+                    I am a proactive Cyber Security undergraduate at GIKI ('27) with a passion for building and defending digital systems. My portfolio spans Full-Stack development, AI-driven forensics, and advanced network security research.
                 </p>
                 <div class="flex justify-center md:justify-start gap-4">
-                    <!-- This link points to the PDF you will add to your folder -->
                     <a href="Aayan_Rashid_CV.pdf" target="_blank" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-md transition-all transform hover:scale-105">
                         View My Resume
                     </a>
@@ -193,9 +170,7 @@
                         See My Projects
                     </a>
                 </div>
-                <!-- Social Links -->
                 <div class="mt-8 flex justify-center md:justify-start gap-6">
-                    <!-- GitHub Link -->
                     <a href="https://github.com/aayanrashid995" target="_blank" rel="noopener noreferrer" class="text-gray-500 dark:text-gray-400 hover:text-purple-500 dark:hover:text-purple-300 transition-colors" title="GitHub">
                         <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .267.18.577.688.48C19.135 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
@@ -208,82 +183,32 @@
                     </a>
                 </div>
             </div>
-            <!-- Hero Image -->
             <div class="flex-1 flex justify-center md:justify-end">
-                <!-- This now points to your local 'profile.png' file -->
-                <!-- Add 'profile.png' to your project folder! -->
                 <img src="profile.png" 
                      alt="Aayan Rashid Wahab" 
                      class="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full shadow-xl object-cover border-4 border-white dark:border-gray-800">
             </div>
         </section>
 
-        <!-- About Me Section -->
         <section id="about" class="mt-24 md:mt-32">
             <h2 class="text-3xl font-bold text-center mb-12">About Me</h2>
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12">
                 <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
-                    I am a highly motivated and proactive Cyber Security undergraduate at the <strong class="font-semibold text-gray-900 dark:text-white">Ghulam Ishaq Khan Institute (GIKI '27)</strong>, specializing in Secure Software Development, Cryptography, and the application of AI in security.
+                    I am a multidisciplinary Cyber Security undergraduate at the <strong class="font-semibold text-gray-900 dark:text-white">Ghulam Ishaq Khan Institute (GIKI '27)</strong>. My work sits at the intersection of <strong class="font-semibold text-gray-900 dark:text-white">Secure Software Engineering</strong>, <strong class="font-semibold text-gray-900 dark:text-white">Artificial Intelligence</strong>, and <strong class="font-semibold text-gray-900 dark:text-white">Network Defense</strong>.
                 </p>
                 <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
-                    My passion lies in building and defending digital systems. I have demonstrated this through numerous hands-on projects, including developing a full-stack file encryption tool, a Python-based packet sniffer, and a blockchain-secured processor simulator. I thrive on analyzing vulnerabilities and implementing robust security measures.
+                    I don't just identify vulnerabilities; I build resilient systems. From developing full-stack applications like <strong class="text-purple-600 dark:text-purple-400">TripSync</strong> to engineering AI-driven forensic tools like <strong class="text-purple-600 dark:text-purple-400">VERITAS</strong> and simulating blockchain-secured processors, I enjoy tackling complex challenges across the tech stack.
                 </p>
                 <p class="text-lg text-gray-700 dark:text-gray-300">
-                    Beyond my technical projects, I am an active member of the GIKI community. I provide technical support for national events with <strong class="font-semibold text-gray-900 dark:text-white">IEEE GIK</strong> and manage media and outreach for community-focused organizations like <strong class="font-semibold text-gray-900 dark:text-white">Project Topi</strong>. I'm now seeking to apply my practical skills and dedicated mindset to advanced learning and impactful collaboration—whether through graduate studies, research initiatives, or innovative technical projects.
+                    Beyond my technical projects, I am deeply involved in the GIKI community, serving as a technical lead for <strong class="font-semibold text-gray-900 dark:text-white">IEEE GIK</strong> and managing outreach for <strong class="font-semibold text-gray-900 dark:text-white">Project Topi</strong>. I am constantly exploring new technologies—from API governance to decentralized mesh networking—and looking for opportunities to apply this knowledge in impactful ways.
                 </p>
             </div>
         </section>
 
-        <!-- "More About Me" Section -->
-        <section id="more-about-me" class="mt-24">
-            <h2 class="text-3xl font-bold text-center mb-12">Beyond the Code</h2>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12">
-                <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 text-center">
-                    When I'm not focused on security, I'm just as active in the physical and creative worlds.
-                </p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <!-- Item 1 -->
-                    <div>
-                        <div class="p-4 bg-purple-100 dark:bg-purple-900 rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-4">
-                            <svg class="w-10 h-10 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">My Journey</h3>
-                        <p class="text-gray-600 dark:text-gray-400">Born in Karachi, Pakistan, and grew up in Riyadh, Saudi Arabia. This gave me a diverse, multicultural perspective.</p>
-                    </div>
-                    
-                    <!-- Item 2 (UPDATED: Now an <img> tag) -->
-                    <div>
-                        <div class="p-4 bg-purple-100 dark:bg-purple-900 rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-4">
-                            <!-- This will load 'hobby-icon.png' from your folder -->
-                            <!-- You can use a basketball or skateboard png! -->
-                            <img src="hobby-icon.png" alt="Hobby Icon" class="w-12 h-12 object-contain">
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">Active Hobbies</h3>
-                        <p class="text-gray-600 dark:text-gray-400">You can usually find me on the basketball court, skateboarding around campus, or exploring with my camera.</p>
-                    </div>
-                    
-                    <!-- Item 3 (UPDATED: New Book Icon) -->
-                    <div>
-                        <div class="p-4 bg-purple-100 dark:bg-purple-900 rounded-full w-20 h-20 mx-auto flex items-center justify-center mb-4">
-                            <!-- UPDATED: Open book icon -->
-                            <svg class="w-10 h-10 text-purple-600 dark:text-purple-300" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-xl font-semibold mb-2">Creative Side</h3>
-                        <p class="text-gray-600 dark:text-gray-400">I'm also passionate about my hobbies. I spend my free time drawing, reading (my all-time favorite is 'My Family and Other Animals' by Gerald Durrell), and experimenting with new cooking recipes.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Projects Section -->
         <section id="projects" class="mt-24">
-            <h2 class="text-3xl font-bold text-center mb-12">Projects</h2>
+            <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
             <div class="grid md:grid-cols-2 gap-8">
 
-                <!-- Project Card Template -->
                 <style>
                     .project-card {
                         @apply bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden flex flex-col transition-all duration-300 ease-in-out;
@@ -293,66 +218,83 @@
                     }
                 </style>
 
-                <!-- Project 1 -->
                 <div class="project-card">
-                    <!-- This points to your local 'project-encryption.png' file -->
-                    <img src="project-encryption.png" alt="File Encryption Manager" class="w-full h-48 object-cover">
+                    <img src="project-tripsync.png" alt="TripSync App" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">Full-Stack File Encryption Manager</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow">
-                            Co-developed a full-stack, end-to-end file encryption solution. Features a dynamic frontend (HTML/CSS/JS) and a robust C++ CGI backend with AJAX for real-time, responsive operations.
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-xl font-semibold mb-2">TripSync: Real-Time Travel Companion</h3>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            A modern web app solving group travel chaos. Features <strong>real-time collaboration</strong>, expense splitting, and integrated booking via Booking.com API. Implemented secure Google auth and live chat.
                         </p>
                         <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">C++</span>
-                            <span class="skill-badge">CGI</span>
-                            <span class="skill-badge">HTML/CSS</span>
-                            <span class="skill-badge">AJAX</span>
+                            <span class="skill-badge">React (Vite)</span>
+                            <span class="skill-badge">Firebase</span>
+                            <span class="skill-badge">Tailwind</span>
+                            <span class="skill-badge">API Integration</span>
                         </div>
                         <div class="mt-auto flex items-center gap-6">
-                            <!-- GitHub Link -->
-                            <a href="https://github.com/muaazbinsalman/Encryptor" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                View on GitHub &rarr;
+                            <a href="https://github.com/aayanrashid995/TripSync" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                                GitHub &rarr;
                             </a>
-                            <!-- PDF LINK -->
-                            <a href="project-encryption-report.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:underline font-medium">
+                            <a href="project-tripsync-report.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:underline font-medium">
                                 View Report &rarr;
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
                 <div class="project-card">
-                    <!-- This points to your local 'project-sniffer.png' file -->
-                    <img src="project-sniffer.png" alt="Network Packet Sniffer" class="w-full h-48 object-cover">
+                    <img src="project-veritas.png" alt="Veritas AI Forensics" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">Network Packet Sniffer (PacketWatch)</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow">
-                            Co-developed a real-time network packet capture and analysis tool with a user-friendly GUI. Utilizes Scapy for packet capturing and advanced data structures (Linked Lists, AVL Trees) for efficient data management.
+                        <h3 class="text-xl font-semibold mb-2">VERITAS: Digital Alibi Verification</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            Automating forensic investigations using AI. Parses raw system logs (PowerShell, CSV) to distinguish human presence from system noise with <strong>95% accuracy</strong>. Uses SHAP waterfall plots for transparent verdicts.
                         </p>
                         <div class="mb-4 flex flex-wrap gap-2">
                             <span class="skill-badge">Python</span>
-                            <span class="skill-badge">Scapy</span>
-                            <span class="skill-badge">Tkinter</span>
-                            <span class="skill-badge">Data Structures</span>
+                            <span class="skill-badge">Scikit-Learn</span>
+                            <span class="skill-badge">SHAP</span>
+                            <span class="skill-badge">Streamlit</span>
                         </div>
                         <div class="mt-auto flex items-center gap-6">
-                            <!-- PDF LINK -->
-                            <a href="project-sniffer-report.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                            <a href="https://github.com/aayanrashid995/Veritas" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                                GitHub &rarr;
+                            </a>
+                             <a href="project-veritas-report.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:underline font-medium">
                                 View Report &rarr;
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 3 -->
                 <div class="project-card">
-                    <!-- This points to your local 'project-blip.png' file -->
+                    <img src="project-research.png" alt="Mesh Networking Research" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-semibold mb-2">Research: Revisiting Mesh Networking</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            Authored "Why Now? Revisiting Mesh Networking Adoption." Analyzed historical failure modes (Battery Trap, OS Wall) of decentralized tech like BitChat and identified hardware shifts (BLE) enabling modern adoption.
+                        </p>
+                        <div class="mb-4 flex flex-wrap gap-2">
+                            <span class="skill-badge">Research</span>
+                            <span class="skill-badge">Mesh Networking</span>
+                            <span class="skill-badge">BitChat</span>
+                            <span class="skill-badge">Decentralization</span>
+                        </div>
+                        <div class="mt-auto flex items-center gap-6">
+                            <a href="mesh-networking-paper.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                                Read Paper (PDF) &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
                     <img src="project-blip.png" alt="BLIP Processor Simulator" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-xl font-semibold mb-2">BLIP: Secure Instruction Processor</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow">
-                            Team-developed a Python-based simulator for a processor that integrates blockchain-based security. Uses hash validation and Proof-of-Work to detect instruction tampering before execution.
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            A processor simulator integrating <strong>blockchain architecture</strong>. Features a custom Hash Computation Unit (HCU) and <strong>Proof-of-Work</strong> mechanism to detect opcode tampering and ensure instruction integrity.
                         </p>
                         <div class="mb-4 flex flex-wrap gap-2">
                             <span class="skill-badge">Python</span>
@@ -361,7 +303,6 @@
                             <span class="skill-badge">Tkinter</span>
                         </div>
                         <div class="mt-auto flex items-center gap-6">
-                            <!-- PDF LINK -->
                             <a href="project-blip-report.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
                                 View Report &rarr;
                             </a>
@@ -369,47 +310,65 @@
                     </div>
                 </div>
 
-                <!-- Project 4 -->
                 <div class="project-card">
-                    <!-- This points to your local 'project-vuln.png' file -->
-                    <img src="project-vuln.png" alt="Web App Vulnerability Analysis" class="w-full h-48 object-cover">
+                    <img src="project-sniffer.png" alt="Network Packet Sniffer" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">Web App Vulnerability Analysis</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow">
-                            Identified and mitigated critical web application vulnerabilities (XSS, DoS, CSRF, Info Disclosure) on the Gruyere test platform. Implemented security measures like input validation, CSP, and CSRF tokens.
+                        <h3 class="text-xl font-semibold mb-2">PacketWatch: Network Sniffer</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            Real-time network packet capture tool with a GUI. Built using Scapy and advanced data structures (AVL Trees) to capture, analyze, and visualize network traffic for forensic analysis.
                         </p>
                         <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">Web Security</span>
-                            <span class="skill-badge">XSS</span>
-                            <span class="skill-badge">CSRF</span>
-                            <span class="skill-badge">DoS</span>
+                            <span class="skill-badge">Python</span>
+                            <span class="skill-badge">Scapy</span>
+                            <span class="skill-badge">Tkinter</span>
+                            <span class="skill-badge">Networking</span>
                         </div>
                         <div class="mt-auto flex items-center gap-6">
-                            <!-- PDF LINK -->
-                            <a href="project-vuln-analysis.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                            <a href="project-sniffer-report.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
                                 View Report &rarr;
                             </a>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Project 5 -->
+
                 <div class="project-card">
-                    <!-- This points to your local 'project-alert.png' file -->
+                    <img src="project-encryption.png" alt="File Encryption Manager" class="w-full h-48 object-cover">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-semibold mb-2">Secure File Encryption Manager</h3>
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            End-to-end secure storage solution. Features a dynamic frontend and a robust <strong>C++ CGI backend</strong> using Shift Cipher algorithms and random key generation for secure data handling.
+                        </p>
+                        <div class="mb-4 flex flex-wrap gap-2">
+                            <span class="skill-badge">C++</span>
+                            <span class="skill-badge">CGI</span>
+                            <span class="skill-badge">HTML/CSS</span>
+                            <span class="skill-badge">Cryptography</span>
+                        </div>
+                        <div class="mt-auto flex items-center gap-6">
+                            <a href="https://github.com/muaazbinsalman/Encryptor" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+                                GitHub &rarr;
+                            </a>
+                            <a href="project-encryption-report.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:underline font-medium">
+                                View Report &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card">
                     <img src="project-alert.png" alt="Cybersecurity Alert System" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-xl font-semibold mb-2">Cybersecurity Alert System</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow">
-                            Co-developed an alert system for suspicious login activities. Features real-time monitoring, efficient data storage/search using Binary Search Trees (BST), and graph-based clustering analysis for suspicious IPs.
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            An automated alert system for detecting suspicious login activities. Utilizes efficient Binary Search Trees (BST) for data storage and graph-based clustering analysis to identify and flag suspicious IP addresses in real-time.
                         </p>
                         <div class="mb-4 flex flex-wrap gap-2">
                             <span class="skill-badge">Data Structures</span>
                             <span class="skill-badge">BST</span>
                             <span class="skill-badge">Graph Theory</span>
-                            <span class="skill-badge">Security Audit</span>
+                            <span class="skill-badge">Algorithms</span>
                         </div>
                         <div class="mt-auto flex items-center gap-6">
-                            <!-- PDF LINK -->
                             <a href="project-alert-system.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
                                 View Report &rarr;
                             </a>
@@ -417,23 +376,20 @@
                     </div>
                 </div>
 
-                <!-- Project 6 -->
                 <div class="project-card">
-                    <!-- This points to your local 'project-ids.png' file -->
                     <img src="project-ids.png" alt="IDS/Firewall Evasion Lab" class="w-full h-48 object-cover">
                     <div class="p-6 flex flex-col flex-grow">
                         <h3 class="text-xl font-semibold mb-2">IDS & Firewall Evasion Lab</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow">
-                            Gained hands-on experience in ethical hacking by deploying and configuring Snort IDS to detect intrusions. Conducted FTP credential cracking using THC-Hydra and network reconnaissance with Nmap.
+                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
+                            A practical security lab focused on network defense and penetration testing. Configured Snort IDS to detect custom rule violations and executed attack simulations using THC-Hydra (FTP cracking) and Nmap to test firewall resilience.
                         </p>
                         <div class="mb-4 flex flex-wrap gap-2">
                             <span class="skill-badge">Snort (IDS)</span>
-                            <span class="skill-badge">THC-Hydra</span>
                             <span class="skill-badge">Nmap</span>
+                            <span class="skill-badge">THC-Hydra</span>
                             <span class="skill-badge">Penetration Testing</span>
                         </div>
                         <div class="mt-auto flex items-center gap-6">
-                            <!-- PDF LINK -->
                             <a href="project-ids-lab.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
                                 View Report &rarr;
                             </a>
@@ -444,12 +400,10 @@
             </div>
         </section>
 
-        <!-- Experience Section -->
         <section id="experience" class="mt-24">
             <h2 class="text-3xl font-bold text-center mb-12">Leadership & Experience</h2>
             <div class="space-y-12">
                 
-                <!-- Experience Item 1 -->
                 <div class="flex flex-col md:flex-row gap-8 items-center bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 transform transition-all duration-300 hover:scale-[1.02]">
                     <div class="w-full md:w-1/3">
                         <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Media & Outreach Lead</h3>
@@ -464,7 +418,6 @@
                     </div>
                 </div>
 
-                <!-- Experience Item 2 -->
                 <div class="flex flex-col md:flex-row gap-8 items-center bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 transform transition-all duration-300 hover:scale-[1.02]">
                     <div class="w-full md:w-1/3">
                         <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Technical Team Member</h3>
@@ -482,15 +435,12 @@
             </div>
         </section>
 
-        <!-- Education & Certifications Section -->
         <section id="education" class="mt-24">
             <h2 class="text-3xl font-bold text-center mb-12">Education & Certifications</h2>
             <div class="grid md:grid-cols-2 gap-8">
-                <!-- Education -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
                     <h3 class="text-2xl font-semibold text-center mb-6">Education</h3>
                     <div class="relative pl-8 border-l-2 border-purple-300 dark:border-purple-700">
-                        <!-- GIKI -->
                         <div class="mb-8">
                             <div class="absolute w-4 h-4 bg-purple-600 rounded-full -left-2 mt-1.5"></div>
                             <p class="text-sm text-gray-500 dark:text-gray-400">Sep 2023 – May 2027 (Expected)</p>
@@ -499,84 +449,69 @@
                         </div>
                     </div>
                 </div>
-                <!-- Certifications -->
                 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
                     <h3 class="text-2xl font-semibold text-center mb-6">Key Certifications</h3>
-                    <div class="relative pl-8 border-l-2 border-gray-200 dark:border-gray-700 no-scrollbar overflow-y-auto max-h-48">
-                        <!-- Google AI -->
+                    <div class="relative pl-8 border-l-2 border-purple-700 dark:border-purple-700 no-scrollbar overflow-y-auto max-h-48">
+                         <div class="mb-6">
+                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
+                            <h4 class="text-xl font-semibold text-gray-700 dark:text-gray-300">Certified API Security Fundamentals</h4>
+                            <p class="text-lg text-gray-700 dark:text-gray-300">APIsec University</p>
+                        </div>
                         <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-gray-400 rounded-full -left-2 mt-1.5"></div>
+                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
                             <h4 class="text-xl font-semibold">Google AI Essentials</h4>
                             <p class="text-lg text-gray-700 dark:text-gray-300">Google</p>
                         </div>
-                        <!-- Google IT Security -->
                         <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-gray-400 rounded-full -left-2 mt-1.5"></div>
-                            <h4 class="text-xl font-semibold">Google IT Security</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">Google</p>
+                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
+                            <h4 class="text-xl font-semibold">Critical Infrastructure Protection (CIP)</h4>
+                            <p class="text-lg text-gray-700 dark:text-gray-300">OPSWAT Academy</p>
                         </div>
-                        <!-- Cisco Networking -->
                         <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-gray-400 rounded-full -left-2 mt-1.5"></div>
-                            <h4 class="text-xl font-semibold">Cisco: Networking Basics</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">Cisco Networking Academy</p>
-                        </div>
-                        <!-- Cisco Cybersecurity -->
-                        <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-gray-400 rounded-full -left-2 mt-1.5"></div>
+                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
                             <h4 class="text-xl font-semibold">Cisco: Intro to Cybersecurity</h4>
                             <p class="text-lg text-gray-700 dark:text-gray-300">Cisco Networking Academy</p>
-                        </div>
-                        <!-- TCM Linux -->
-                        <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-gray-400 rounded-full -left-2 mt-1.5"></div>
-                            <h4 class="text-xl font-semibold">TCM Security: Linux 100</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">TCM Security</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Skills Section -->
         <section id="skills" class="mt-24">
             <h2 class="text-3xl font-bold text-center mb-12">Skills</h2>
             
-            <!-- Technical Skills -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12">
                 <h3 class="text-2xl font-semibold text-center mb-8">Technical Skills</h3>
                 <div class="flex flex-wrap justify-center gap-3 md:gap-4">
                     <span class="skill-badge">Python</span>
                     <span class="skill-badge">C++</span>
-                    <span class="skill-badge">Linux (Parrot OS, Kali)</span>
+                    <span class="skill-badge">React (Vite)</span>
+                    <span class="skill-badge">Firebase</span>
+                    <span class="skill-badge">Scikit-Learn</span>
+                    <span class="skill-badge">Streamlit</span>
+                    <span class="skill-badge">SHAP (AI Explainability)</span>
+                    <span class="skill-badge">API Security (OWASP)</span>
                     <span class="skill-badge">Network Analysis</span>
-                    <span class="skill-badge">Packet Tracer</span>
-                    <span class="skill-badge">Scapy</span>
                     <span class="skill-badge">Snort (IDS)</span>
-                    <span class="skill-badge">Nmap</span>
-                    <span class="skill-badge">THC-Hydra</span>
-                    <span class="skill-badge">Web Vulnerability Analysis</span>
+                    <span class="skill-badge">Nmap & Hydra</span>
+                    <span class="skill-badge">Linux (Kali/Parrot)</span>
                     <span class="skill-badge">Cryptography</span>
-                    <span class="skill-badge">HTML / CSS / JS</span>
-                    <span class="skill-badge">Firebase (Firestore)</span>
-                    <span class="skill-badge">AI / Machine Learning</span>
+                    <span class="skill-badge">Technical Research</span>
                 </div>
             </div>
 
-            <!-- Professional Skills -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12 mt-8">
                 <h3 class="text-2xl font-semibold text-center mb-8">Professional Skills</h3>
                 <div class="flex flex-wrap justify-center gap-3 md:gap-4">
-                    <span class="skill-badge">Technical Support</span>
                     <span class="skill-badge">Project Management</span>
-                    <span class="skill-badge">Social Media Management</span>
+                    <span class="skill-badge">Technical Writing</span>
+                    <span class="skill-badge">Team Leadership</span>
+                    <span class="skill-badge">Event Logistics</span>
                     <span class="skill-badge">Digital Arts & Design</span>
-                    <span class="skill-badge">Photography (DSLR)</span>
                     <span class="skill-badge">Community Outreach</span>
                 </div>
             </div>
 
-            <!-- Languages -->
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12 mt-8">
                 <h3 class="text-2xl font-semibold text-center mb-8">Languages</h3>
                 <div class="flex flex-wrap justify-center gap-3 md:gap-4">
@@ -587,12 +522,10 @@
             </div>
         </section>
 
-        <!-- Game Section -->
         <section id="game" class="mt-24 text-center">
             <h2 class="text-3xl font-bold mb-8">Need a Break? Play this Mini Game.</h2>
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 md:p-8 flex flex-col items-center md:flex-row md:items-start md:justify-center gap-8">
                 
-                <!-- Game Canvas Area -->
                 <div class="flex-shrink-0 flex flex-col items-center w-full max-w-[400px]">
                     <div class="flex flex-wrap items-center justify-center gap-2 mb-4 h-auto min-h-[2.5rem]">
                         <button id="start-game-btn" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-md transition-all w-32">
@@ -614,7 +547,6 @@
                         </div>
                     </div>
                     
-                    <!-- Canvas -->
                     <div class="w-full max-w-[400px] relative">
                         <canvas id="game-canvas" width="400" height="400" class="w-full h-auto"></canvas>
                         <div id="pause-overlay" class="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-4xl font-bold rounded-lg hidden">
@@ -625,24 +557,20 @@
                     <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">Use Arrow Keys (or swipe) to move. Press 'P' to pause.</p>
                 </div>
                 
-                <!-- Leaderboard Area -->
                 <div class="w-full md:w-64 flex-shrink-0">
                     <h3 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">High Scores</h3>
                     <div id="leaderboard" class="space-y-2">
-                        <!-- Loading spinner -->
                         <div id="leaderboard-loader" class="flex justify-center items-center h-24">
                             <svg class="animate-spin h-8 w-8 text-purple-600 dark:text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
                         </div>
-                        <!-- Scores will be dynamically inserted here by JS -->
-                    </div>
+                        </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
         <section id="contact" class="mt-24 text-center">
             <h2 class="text-3xl font-bold mb-6">Get In Touch</h2>
             <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
@@ -658,12 +586,10 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-24">
         <div class="container mx-auto max-w-5xl px-6 py-8 flex flex-col md:flex-row justify-between items-center text-gray-600 dark:text-gray-400">
             <p class="text-sm">&copy; 2025 Aayan Rashid Wahab. All rights reserved.</p>
             <div class="flex gap-6 mt-4 md:mt-0">
-                <!-- GitHub Link -->
                 <a href="https://github.com/killerpanda9995" target="_blank" rel="noopener noreferrer" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors text-sm">
                     GitHub
                 </a>
@@ -674,14 +600,12 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
     <button id="back-to-top" class="hidden fixed bottom-8 right-8 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>
     </button>
     
-    <!-- Restart Confirmation Modal -->
     <div id="restart-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-sm w-full p-6 text-center">
             <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Restart Game?</h3>
@@ -697,13 +621,9 @@
         </div>
     </div>
 
-    <!-- PEEKING CAT (PNG) -->
-    <div id="cat-trigger"></div> <!-- Invisible hover area -->
-    <!-- FIXED: Make sure to add 'peeking-cat.png' to your folder! -->
-    <img id="peeking-cat" src="peeking-cat.png" alt="A cat peeking from the bottom of the page">
+    <div id="cat-trigger"></div> <img id="peeking-cat" src="peeking-cat.png" alt="A cat peeking from the bottom of the page">
 
 
-    <!-- Firebase SDK Scripts -->
     <script type="module">
         // Import the functions you need from the SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -1243,12 +1163,7 @@
 
     </script>
     
-    <!-- PEEKING CAT (PNG) -->
-    <div id="cat-trigger"></div> <!-- Invisible hover area -->
-    <!-- FIXED: Make sure to add 'peeking-cat.png' to your folder! -->
-    <img id="peeking-cat" src="peeking-cat.png" alt="A cat peeking from the bottom of the page">
+    <div id="cat-trigger"></div> <img id="peeking-cat" src="peeking-cat.png" alt="A cat peeking from the bottom of the page">
 
 </body>
 </html>
-
-
