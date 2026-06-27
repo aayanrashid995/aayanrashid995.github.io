@@ -3,1168 +3,1001 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aayan Rashid Wahab - Cybersecurity Portfolio</title>
+    <title>Aayan Rashid Wahab — Security Engineer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <style>
-        /* Base styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            cursor: default;
-        }
-        a, button, input[type="text"] {
-            cursor: pointer;
-        }
-
-        .skill-badge {
-            @apply bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm font-medium px-4 py-2 rounded-full shadow-sm;
-        }
-        /* Hide scrollbar */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        /* Game Styles */
-        #game-canvas {
-            background-color: #f3f4f6; /* bg-gray-100 */
-            border: 2px solid #374151; /* border-gray-700 */
-            @apply w-full h-auto max-w-[400px] rounded-lg shadow-inner;
-            aspect-ratio: 1 / 1;
-        }
-        .dark #game-canvas {
-            background-color: #1F2937; /* dark:bg-gray-800 */
-            border: 2px solid #4B5563; /* dark:border-gray-600 */
-        }
-
-        /* Peeking Cat Image Style */
-        #peeking-cat {
-            position: fixed;
-            bottom: -100px; /* Start hidden - assumes image is ~100px tall */
-            left: 20px;
-            width: 100px; /* Adjust width as needed */
-            height: auto; /* Maintain aspect ratio */
-            z-index: 50;
-            transition: transform 0.5s ease-in-out;
-            pointer-events: none; /* So it doesn't block clicks */
-        }
-        
-        /* Trigger area for the cat */
-        #cat-trigger {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 150px;
-            height: 50px;
-            z-index: 49;
-        }
-
-        /* Show cat when trigger is hovered */
-        #cat-trigger:hover + #peeking-cat {
-            transform: translateY(-100px); /* Slides the cat up by its height */
-        }
-
-        .dark #peeking-cat {
-            opacity: 0.9;
-        }
-    </style>
-
     <script>
-        if (localStorage.theme === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
-            document.documentElement.classList.add('dark');
-        }
-
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    colors: {
+                        black: '#030303',
+                        surface: '#0d0d0d',
+                        surface2: '#171717',
+                        border: 'rgba(255,255,255,0.06)',
+                        borderBright: 'rgba(255,255,255,0.15)',
+                        white: '#fcfcfc',
+                        muted: 'rgba(255,255,255,0.45)',
+                        purple: { DEFAULT: '#a78bfa', dim: 'rgba(167,139,250,0.1)' }
+                    },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
-                        mono: ['monospace'],
-                    },
-                    animation: {
-                        'pulse-food': 'pulse-food 1s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        'pulse-food': {
-                            '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-                            '50%': { transform: 'scale(1.25)', opacity: '.75' },
-                        }
+                        mono: ['JetBrains Mono', 'monospace']
                     }
-                },
-            },
+                }
+            }
         }
     </script>
+
+    <style>
+        body {
+            background-color: #030303;
+            color: #fcfcfc;
+            overflow-x: hidden;
+        }
+
+        /* ── Premium Ambient Background ── */
+        /* ── Premium Ambient Background ── */
+        .bg-grid {
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+            pointer-events: none; /* Ensures the grid doesn't block clicks */
+        }
+
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.15;
+            z-index: 0;
+            animation: drift 15s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        .orb-primary {
+            width: 50vw; height: 50vw;
+            max-width: 600px; max-height: 600px;
+            background: radial-gradient(circle, #a78bfa, transparent 70%);
+            top: -10%; left: -10%;
+        }
+        .orb-secondary {
+            width: 40vw; height: 40vw;
+            max-width: 500px; max-height: 500px;
+            background: radial-gradient(circle, #3b82f6, transparent 70%);
+            top: 20%; right: -10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 40px) scale(1.05); }
+        }
+
+        /* ── Terminal Blinking Cursor ── */
+        .cursor-blink::after {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background-color: #a78bfa;
+            animation: blink 1s step-start infinite;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ── Premium Glass Cards ── */
+        .glass-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--border);
+            position: relative;
+            transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(255,255,255,0.06), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .glass-card:hover {
+            border-color: var(--borderBright);
+            transform: translateY(-2px);
+        }
+        .glass-card:hover::before {
+            opacity: 1;
+        }
+        .card-glow-top {
+            position: absolute;
+            top: -1px; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .glass-card:hover .card-glow-top { opacity: 1; }
+
+        /* ── Scroll Reveal ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ── Minimalist Buttons ── */
+        .btn-primary {
+            background: #fcfcfc;
+            color: #030303;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 14px 0 rgba(255,255,255,0.1);
+        }
+        .btn-primary:hover {
+            background: #e5e5e5;
+            box-shadow: 0 6px 20px rgba(255,255,255,0.15);
+            transform: translateY(-1px);
+        }
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid var(--borderBright);
+            color: #fcfcfc;
+            transition: all 0.2s ease;
+        }
+        .btn-ghost:hover {
+            border-color: #a78bfa;
+            color: #a78bfa;
+            background: rgba(167,139,250,0.05);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased relative">
+<body class="font-sans antialiased selection:bg-purple selection:text-black">
 
-    <header class="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-gray-900/70 backdrop-blur-lg shadow-sm">
-        <nav class="container mx-auto max-w-5xl px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-purple-600 dark:text-purple-400">
-                Aayan Rashid Wahab
-            </a>
-            <div class="flex items-center space-x-6">
-                <div class="hidden md:flex space-x-6">
-                    <a href="#about" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">About</a>
-                    <a href="#projects" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Projects</a>
-                    <a href="#experience" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Experience</a>
-                    <a href="#skills" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Skills</a>
-                    <a href="#game" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Mini Game</a>
-                    <a href="#contact" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors">Contact</a>
-                </div>
-                
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 focus:outline-none">
-                    <img id="theme-icon-light" src="sun-icon.png" alt="Light Mode" class="h-6 w-6 hidden">
-                    <svg id="theme-icon-dark" class="h-6 w-6 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
-                </button>
-                
-                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-600 dark:text-gray-300">
-                    <svg id="menu-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                    <svg id="menu-icon-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+<!-- ═══════════ NAV ═══════════ -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-xl border-b border-border">
+    <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="#" class="font-mono text-sm tracking-widest text-white font-medium hover:text-purple transition-colors">
+            ARW<span class="text-muted">.dev</span>
+        </a>
+        
+        <nav class="hidden md:flex items-center gap-8">
+            <a href="#about" class="text-xs uppercase tracking-widest text-muted hover:text-white transition-colors">About</a>
+            <a href="#projects" class="text-xs uppercase tracking-widest text-muted hover:text-white transition-colors">Projects</a>
+            <a href="#experience" class="text-xs uppercase tracking-widest text-muted hover:text-white transition-colors">Experience</a>
+            <a href="#education" class="text-xs uppercase tracking-widest text-muted hover:text-white transition-colors">Education</a>
+            <a href="#skills" class="text-xs uppercase tracking-widest text-muted hover:text-white transition-colors">Skills</a>
+            <a href="#game" class="text-xs uppercase tracking-widest text-muted hover:text-purple transition-colors">Play</a>
+            <a href="#contact" class="text-xs uppercase tracking-widest text-muted hover:text-white transition-colors">Contact</a>
         </nav>
-        <div id="mobile-menu" class="hidden md:hidden px-6 pt-2 pb-4 space-y-2 bg-white dark:bg-gray-900/95 shadow-lg rounded-b-lg">
-            <a href="#about" class="block mobile-menu-link">About</a>
-            <a href="#projects" class="block mobile-menu-link">Projects</a>
-            <a href="#experience" class="block mobile-menu-link">Experience</a>
-            <a href="#skills" class="block mobile-menu-link">Skills</a>
-            <a href="#game" class="block mobile-menu-link">Mini Game</a>
-            <a href="#contact" class="block mobile-menu-link">Contact</a>
+
+        <div class="flex items-center gap-4">
+            <a href="mailto:u2023002@giki.edu.pk" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 bg-white text-black text-xs font-semibold tracking-widest uppercase hover:opacity-90 transition-opacity rounded-sm">
+                Hire Me &rarr;
+            </a>
+            <button id="mobile-menu-btn" class="md:hidden p-2 text-white hover:text-purple transition-colors">
+                <svg id="menu-open" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <svg id="menu-close" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" class="hidden"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
         </div>
-        <style>
-            .mobile-menu-link {
-                @apply px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 text-base font-medium;
-            }
-        </style>
-    </header>
-
-    <main class="container mx-auto max-w-5xl px-6 pt-28 md:pt-32 pb-16">
-
-        <section class="flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-16">
-            <div class="flex-1 text-center md:text-left">
-                <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-                    Hi, I'm <span class="text-purple-600 dark:text-purple-400">Aayan Rashid Wahab</span>
-                </h1>
-                <h2 id="scramble-text" 
-                    class="text-xl md:text-2xl font-mono font-medium text-purple-600 dark:text-purple-400 mb-6 min-h-[56px] md:min-h-[32px]"
-                    data-text-1="Secure Software Development"
-                    data-text-2="AI Forensics & Threat Analysis"
-                    data-text-3="API Security & Governance">
-                </h2>
-                <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-xl mx-auto md:mx-0">
-                    I am an AI-Driven Security Engineer bridging the gap between intelligent automation and resilient software design. As an undergraduate at GIKI ('27), my expertise spans applied GenAI workflows, machine learning forensics, and engineering secure, production-ready architectures.
-                </p>
-                <div class="flex justify-center md:justify-start gap-4">
-                    <a href="Aayan_Rashid_CV.pdf" target="_blank" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-md transition-all transform hover:scale-105">
-                        View My Resume
-                    </a>
-                    <a href="#projects" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium rounded-lg shadow-md transition-all transform hover:scale-105">
-                        See My Projects
-                    </a>
-                </div>
-                <div class="mt-8 flex justify-center md:justify-start gap-6">
-                    <a href="https://github.com/aayanrashid995" target="_blank" rel="noopener noreferrer" class="text-gray-500 dark:text-gray-400 hover:text-purple-500 dark:hover:text-purple-300 transition-colors" title="GitHub">
-                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .267.18.577.688.48C19.135 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/aayanrashid/" target="_blank" rel="noopener noreferrer" class="text-gray-500 dark:text-gray-400 hover:text-purple-500 dark:hover:text-purple-300 transition-colors" title="LinkedIn">
-                        <svg class="h-8 w-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.783 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                        </svg>
-                    </a>
-                </div>
-            </div>
-            <div class="flex-1 flex justify-center md:justify-end">
-                <img src="profile.png" 
-                     alt="Aayan Rashid Wahab" 
-                     class="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full shadow-xl object-cover border-4 border-white dark:border-gray-800">
-            </div>
-        </section>
-
-      <section id="about" class="mt-24 md:mt-32">
-    <h2 class="text-3xl font-bold text-center mb-12">About Me</h2>
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12">
-        <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            I am an Applied AI and Cyber Security undergraduate at the <strong class="font-semibold text-gray-900 dark:text-white">Ghulam Ishaq Khan Institute (GIKI '27)</strong>. My work sits at the cutting edge of <strong class="font-semibold text-gray-900 dark:text-white">AI Safety (RLHF)</strong>, <strong class="font-semibold text-gray-900 dark:text-white">Applied Cryptography</strong>, and <strong class="font-semibold text-gray-900 dark:text-white">Resilient Software Design</strong>.
-        </p>
-        <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
-            I don't just evaluate vulnerabilities; I build production-ready, mathematically verifiable systems. My portfolio ranges from deploying LLM hallucination frameworks like <strong class="text-purple-600 dark:text-purple-400">ContextTrace</strong> and ML forensic pipelines like <strong class="text-purple-600 dark:text-purple-400">VERITAS</strong>, to engineering <strong class="text-purple-600 dark:text-purple-400">BLIP</strong>—a custom blockchain-integrated processor that utilizes Proof-of-Work and Hash Computation Units to detect opcode tampering in real-time.
-        </p>
-        <p class="text-lg text-gray-700 dark:text-gray-300">
-            Beyond writing code, I bring a strong execution mindset to everything I do. I actively lead cross-functional teams, serving as a technical organizer for <strong class="font-semibold text-gray-900 dark:text-white">IEEE GIK</strong> and managing high-impact outreach for <strong class="font-semibold text-gray-900 dark:text-white">Project Topi</strong>. I am constantly exploring the latest in agentic workflows, cryptographic verification, and threat intelligence to build tools that drive real-world value.
-        </p>
     </div>
-</section>
 
-        <section id="projects" class="mt-24">
-            <h2 class="text-3xl font-bold text-center mb-12">Featured Projects</h2>
-            <div class="grid md:grid-cols-2 gap-8">
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden bg-black/95 border-b border-border px-6 pb-6 pt-2">
+        <a href="#about" class="block py-4 text-xs uppercase tracking-widest text-muted border-b border-border hover:text-white">About</a>
+        <a href="#projects" class="block py-4 text-xs uppercase tracking-widest text-muted border-b border-border hover:text-white">Projects</a>
+        <a href="#experience" class="block py-4 text-xs uppercase tracking-widest text-muted border-b border-border hover:text-white">Experience</a>
+        <a href="#education" class="block py-4 text-xs uppercase tracking-widest text-muted border-b border-border hover:text-white">Education</a>
+        <a href="#skills" class="block py-4 text-xs uppercase tracking-widest text-muted border-b border-border hover:text-white">Skills</a>
+        <a href="#game" class="block py-4 text-xs uppercase tracking-widest text-muted border-b border-border hover:text-purple">Play</a>
+        <a href="#contact" class="block py-4 text-xs uppercase tracking-widest text-muted hover:text-white">Contact</a>
+    </div>
+</header>
 
-                <style>
-                    .project-card {
-                        @apply bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden flex flex-col transition-all duration-300 ease-in-out;
-                    }
-                    .project-card:hover {
-                        @apply shadow-2xl dark:shadow-purple-500/20 -translate-y-1;
-                    }
-                </style>
-
-                <div class="project-card">
-                    <img src="project-tripsync.png" alt="TripSync App" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <div class="flex justify-between items-start">
-                            <h3 class="text-xl font-semibold mb-2">TripSync: Real-Time Travel Companion</h3>
-                        </div>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            A modern web app solving group travel chaos. Features <strong>real-time collaboration</strong>, expense splitting, and integrated booking via Booking.com API. Implemented secure Google auth and live chat.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">React (Vite)</span>
-                            <span class="skill-badge">Firebase</span>
-                            <span class="skill-badge">Tailwind</span>
-                            <span class="skill-badge">API Integration</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="https://github.com/aayanrashid995/TripSync" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                GitHub &rarr;
-                            </a>
-                            <a href="project-tripsync-report.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:underline font-medium">
-                                View Report &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="project-veritas.png" alt="Veritas AI Forensics" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">VERITAS: Digital Alibi Verification</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            Automating forensic investigations using AI. Parses raw system logs (PowerShell, CSV) to distinguish human presence from system noise with <strong>95% accuracy</strong>. Uses SHAP waterfall plots for transparent verdicts.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">Python</span>
-                            <span class="skill-badge">Scikit-Learn</span>
-                            <span class="skill-badge">SHAP</span>
-                            <span class="skill-badge">Streamlit</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="https://github.com/aayanrashid995/Veritas" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                GitHub &rarr;
-                            </a>
-                             <a href="project-veritas-report.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:underline font-medium">
-                                View Report &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="project-research.png" alt="Mesh Networking Research" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">Research: Revisiting Mesh Networking</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            Authored "Why Now? Revisiting Mesh Networking Adoption." Analyzed historical failure modes (Battery Trap, OS Wall) of decentralized tech like BitChat and identified hardware shifts (BLE) enabling modern adoption.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">Research</span>
-                            <span class="skill-badge">Mesh Networking</span>
-                            <span class="skill-badge">BitChat</span>
-                            <span class="skill-badge">Decentralization</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="mesh-networking-paper.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                Read Paper (PDF) &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="project-blip.png" alt="BLIP Processor Simulator" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">BLIP: Secure Instruction Processor</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            A processor simulator integrating <strong>blockchain architecture</strong>. Features a custom Hash Computation Unit (HCU) and <strong>Proof-of-Work</strong> mechanism to detect opcode tampering and ensure instruction integrity.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">Python</span>
-                            <span class="skill-badge">Blockchain</span>
-                            <span class="skill-badge">Cryptography</span>
-                            <span class="skill-badge">Tkinter</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="project-blip-report.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                View Report &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="project-sniffer.png" alt="Network Packet Sniffer" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">PacketWatch: Network Sniffer</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            Real-time network packet capture tool with a GUI. Built using Scapy and advanced data structures (AVL Trees) to capture, analyze, and visualize network traffic for forensic analysis.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">Python</span>
-                            <span class="skill-badge">Scapy</span>
-                            <span class="skill-badge">Tkinter</span>
-                            <span class="skill-badge">Networking</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="project-sniffer-report.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                View Report &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="project-encryption.png" alt="File Encryption Manager" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">Secure File Encryption Manager</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            End-to-end secure storage solution. Features a dynamic frontend and a robust <strong>C++ CGI backend</strong> using Shift Cipher algorithms and random key generation for secure data handling.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">C++</span>
-                            <span class="skill-badge">CGI</span>
-                            <span class="skill-badge">HTML/CSS</span>
-                            <span class="skill-badge">Cryptography</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="https://github.com/muaazbinsalman/Encryptor" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                GitHub &rarr;
-                            </a>
-                            <a href="project-encryption-report.pdf" target="_blank" rel="noopener noreferrer" class="text-gray-600 dark:text-gray-400 hover:underline font-medium">
-                                View Report &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="project-alert.png" alt="Cybersecurity Alert System" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">Cybersecurity Alert System</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            An automated alert system for detecting suspicious login activities. Utilizes efficient Binary Search Trees (BST) for data storage and graph-based clustering analysis to identify and flag suspicious IP addresses in real-time.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">Data Structures</span>
-                            <span class="skill-badge">BST</span>
-                            <span class="skill-badge">Graph Theory</span>
-                            <span class="skill-badge">Algorithms</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="project-alert-system.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                View Report &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="project-ids.png" alt="IDS/Firewall Evasion Lab" class="w-full h-48 object-cover">
-                    <div class="p-6 flex flex-col flex-grow">
-                        <h3 class="text-xl font-semibold mb-2">IDS & Firewall Evasion Lab</h3>
-                        <p class="text-gray-700 dark:text-gray-300 mb-4 flex-grow text-sm">
-                            A practical security lab focused on network defense and penetration testing. Configured Snort IDS to detect custom rule violations and executed attack simulations using THC-Hydra (FTP cracking) and Nmap to test firewall resilience.
-                        </p>
-                        <div class="mb-4 flex flex-wrap gap-2">
-                            <span class="skill-badge">Snort (IDS)</span>
-                            <span class="skill-badge">Nmap</span>
-                            <span class="skill-badge">THC-Hydra</span>
-                            <span class="skill-badge">Penetration Testing</span>
-                        </div>
-                        <div class="mt-auto flex items-center gap-6">
-                            <a href="project-ids-lab.pdf" target="_blank" rel="noopener noreferrer" class="text-purple-600 dark:text-purple-400 hover:underline font-medium">
-                                View Report &rarr;
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="experience" class="mt-24">
-            <h2 class="text-3xl font-bold text-center mb-12">Leadership & Experience</h2>
-            <div class="space-y-12">
+<main>
+    <!-- ═══════════ HERO ═══════════ -->
+    <section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+        <!-- Ambient Background (pushed to back) -->
+        <div class="ambient-orb orb-primary z-0"></div>
+        <div class="ambient-orb orb-secondary z-0"></div>
+        <!-- Grid pattern explicitly placed over the orbs -->
+        <div class="absolute inset-0 bg-grid z-10 pointer-events-none"></div>
+        
+        <!-- Content pushed to the very front (z-20) -->
+        <div class="max-w-6xl mx-auto px-6 w-full relative z-20 grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-12 items-center">
+            <div>
+                <p class="font-mono text-xs tracking-widest uppercase text-muted mb-6">
+                    <span class="text-purple">01</span> &mdash; Security Engineer &middot; #1 Pakistan HackerRank AI
+                </p>
                 
-                <div class="flex flex-col md:flex-row gap-8 items-center bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 transform transition-all duration-300 hover:scale-[1.02]">
-                    <div class="w-full md:w-1/3">
-                        <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Media & Outreach Lead</h3>
-                        <p class="text-lg text-gray-600 dark:text-gray-400 mb-2">Project Topi (GIKI)</p>
-                    </div>
-                    <div class="w-full md:w-2/3">
-                        <ul class="list-disc list-inside text-lg text-gray-700 dark:text-gray-300 space-y-2">
-                            <li>I lead media coverage for all society events, including KHSB'24.</li>
-                            <li>I manage the society's social media presence to boost engagement and awareness.</li>
-                            <li>I actively assist in fundraising efforts and community outreach programs to support underserved communities.</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="flex flex-col md:flex-row gap-8 items-center bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 transform transition-all duration-300 hover:scale-[1.02]">
-                    <div class="w-full md:w-1/3">
-                        <h3 class="text-2xl font-semibold mb-2 text-purple-600 dark:text-purple-400">Technical Team Member</h3>
-                        <p class="text-lg text-gray-600 dark:text-gray-400 mb-2">IEEE (GIKI Chapter)</p>
-                    </div>
-                    <div class="w-full md:w-2/3">
-                        <ul class="list-disc list-inside text-lg text-gray-700 dark:text-gray-300 space-y-2">
-                            <li>I provide critical technical support during national-level competitions like the National Electronics Olympiad (NEO'24).</li>
-                            <li>My role includes real-time troubleshooting of equipment and software issues for participants.</li>
-                            <li>I collaborate with the organizing committee to plan and execute technical events.</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <section id="education" class="mt-24">
-            <h2 class="text-3xl font-bold text-center mb-12">Education & Certifications</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
-                    <h3 class="text-2xl font-semibold text-center mb-6">Education</h3>
-                    <div class="relative pl-8 border-l-2 border-purple-300 dark:border-purple-700">
-                        <div class="mb-8">
-                            <div class="absolute w-4 h-4 bg-purple-600 rounded-full -left-2 mt-1.5"></div>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Sep 2023 – May 2027 (Expected)</p>
-                            <h4 class="text-xl font-semibold mt-1">Bachelor of Science, Cyber Security</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">Ghulam Ishaq Khan Institute (GIKI)</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
-                    <h3 class="text-2xl font-semibold text-center mb-6">Key Certifications</h3>
-                    <div class="relative pl-8 border-l-2 border-purple-700 dark:border-purple-700 no-scrollbar overflow-y-auto max-h-48">
-                         <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
-                            <h4 class="text-xl font-semibold text-gray-700 dark:text-gray-300">Certified API Security Fundamentals</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">APIsec University</p>
-                        </div>
-                        <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
-                            <h4 class="text-xl font-semibold">Google AI Essentials</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">Google</p>
-                        </div>
-                        <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
-                            <h4 class="text-xl font-semibold">Critical Infrastructure Protection (CIP)</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">OPSWAT Academy</p>
-                        </div>
-                        <div class="mb-6">
-                            <div class="absolute w-4 h-4 bg-purple-400 rounded-full -left-2 mt-1.5"></div>
-                            <h4 class="text-xl font-semibold">Cisco: Intro to Cybersecurity</h4>
-                            <p class="text-lg text-gray-700 dark:text-gray-300">Cisco Networking Academy</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="skills" class="mt-24">
-            <h2 class="text-3xl font-bold text-center mb-12">Skills</h2>
-            
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12">
-                <h3 class="text-2xl font-semibold text-center mb-8">Technical Skills</h3>
-                <div class="flex flex-wrap justify-center gap-3 md:gap-4">
-                    <span class="skill-badge">Python</span>
-                    <span class="skill-badge">C++</span>
-                    <span class="skill-badge">React (Vite)</span>
-                    <span class="skill-badge">Firebase</span>
-                    <span class="skill-badge">Scikit-Learn</span>
-                    <span class="skill-badge">Streamlit</span>
-                    <span class="skill-badge">SHAP (AI Explainability)</span>
-                    <span class="skill-badge">API Security (OWASP)</span>
-                    <span class="skill-badge">Network Analysis</span>
-                    <span class="skill-badge">Snort (IDS)</span>
-                    <span class="skill-badge">Nmap & Hydra</span>
-                    <span class="skill-badge">Linux (Kali/Parrot)</span>
-                    <span class="skill-badge">Cryptography</span>
-                    <span class="skill-badge">Technical Research</span>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12 mt-8">
-                <h3 class="text-2xl font-semibold text-center mb-8">Professional Skills</h3>
-                <div class="flex flex-wrap justify-center gap-3 md:gap-4">
-                    <span class="skill-badge">Project Management</span>
-                    <span class="skill-badge">Technical Writing</span>
-                    <span class="skill-badge">Team Leadership</span>
-                    <span class="skill-badge">Event Logistics</span>
-                    <span class="skill-badge">Digital Arts & Design</span>
-                    <span class="skill-badge">Community Outreach</span>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8 md:p-12 mt-8">
-                <h3 class="text-2xl font-semibold text-center mb-8">Languages</h3>
-                <div class="flex flex-wrap justify-center gap-3 md:gap-4">
-                    <span class="skill-badge">English (C2 Proficient)</span>
-                    <span class="skill-badge">Urdu (Native)</span>
-                    <span class="skill-badge">Arabic (B2)</span>
-                </div>
-            </div>
-        </section>
-
-        <section id="game" class="mt-24 text-center">
-            <h2 class="text-3xl font-bold mb-8">Need a Break? Play this Mini Game.</h2>
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 md:p-8 flex flex-col items-center md:flex-row md:items-start md:justify-center gap-8">
+                <h1 class="text-5xl sm:text-7xl lg:text-[6rem] font-bold leading-[1] tracking-tight text-white mb-6">
+                    Aayan<br>Rashid<br>Wahab
+                </h1>
                 
-                <div class="flex-shrink-0 flex flex-col items-center w-full max-w-[400px]">
-                    <div class="flex flex-wrap items-center justify-center gap-2 mb-4 h-auto min-h-[2.5rem]">
-                        <button id="start-game-btn" class="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-md transition-all w-32">
-                            Start Game
-                        </button>
-                        <button id="pause-game-btn" class="px-6 py-2 bg-yellow-500 hover:bg-yellow-600 text-white font-medium rounded-lg shadow-md transition-all w-32 hidden">
-                            Pause
-                        </button>
-                        
-                        <div id="submit-score-form" class="hidden flex items-center gap-2">
-                            <input type="text" id="player-name" placeholder="AAA" maxlength="3" class="w-16 p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-center font-mono uppercase focus:outline-none focus:ring-2 focus:ring-purple-500">
-                            <button id="submit-score-btn" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-md transition-all">
-                                Submit
-                            </button>
+                <div class="h-px w-24 bg-purple mb-8 opacity-60"></div>
+                
+                <div class="font-mono text-lg sm:text-xl text-purple min-h-[2em] mb-8 cursor-blink" id="scramble-text" 
+                     data-text-1="Post-Quantum Cryptography"
+                     data-text-2="AI Forensics & LLM Security"
+                     data-text-3="Zero-Trust Architecture">
+                </div>
+                
+                <p class="text-muted text-base leading-relaxed max-w-lg mb-10">
+                    Cyber Security student at GIKI specialising in cryptographic systems and AI engineering. Backed by a #1 Pakistan ranking on HackerRank's AI Leaderboard, with hands-on work in post-quantum threat modelling, zero-trust architecture, and ML forensic tools.
+                </p>
+                
+                <div class="flex flex-wrap gap-4 mb-12">
+                    <a href="Aayan_Rashid_CV.pdf" target="_blank" class="px-7 py-3.5 btn-primary rounded-sm text-xs font-semibold tracking-widest uppercase">View Resume</a>
+                    <a href="#projects" class="px-7 py-3.5 btn-ghost rounded-sm text-xs font-medium tracking-widest uppercase">See Projects</a>
+                </div>
+
+                <div class="flex items-center gap-6">
+                    <a href="https://github.com/aayanrashid995" target="_blank" rel="noopener" class="text-muted hover:text-white transition-colors">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.165 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.951 0-1.093.39-1.988 1.03-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .267.18.577.688.48C19.135 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"/></svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/aayanrashid/" target="_blank" rel="noopener" class="text-muted hover:text-white transition-colors">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.783-1.75-1.75s.784-1.75 1.75-1.75 1.75.783 1.75 1.75-.783 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <span class="w-px h-4 bg-border"></span>
+                    <a href="tel:+923371444436" class="font-mono text-xs text-muted hover:text-white transition-colors hidden sm:block">+92 337 144 4436</a>
+                </div>
+            </div>
+
+            <!-- Stats Column -->
+            <div class="hidden lg:flex flex-col gap-px min-w-[220px] relative z-20">
+                <div class="glass-card p-8 rounded-t-xl group">
+                    <div class="text-4xl font-bold tracking-tight text-white group-hover:text-purple transition-colors">#1</div>
+                    <div class="font-mono text-[10px] text-muted tracking-widest uppercase mt-2">HackerRank AI &middot; PK</div>
+                </div>
+                <div class="glass-card p-8 group">
+                    <div class="text-4xl font-bold tracking-tight text-white transition-colors">96%</div>
+                    <div class="font-mono text-[10px] text-muted tracking-widest uppercase mt-2">ML Precision</div>
+                </div>
+                <div class="glass-card p-8 rounded-b-xl group">
+                    <div class="text-4xl font-bold tracking-tight text-white transition-colors">70%</div>
+                    <div class="font-mono text-[10px] text-muted tracking-widest uppercase mt-2">Log Analysis Speed</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ ABOUT ═══════════ -->
+    <section id="about" class="py-24 border-t border-border bg-black relative z-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-12 lg:gap-20 reveal">
+                <div>
+                    <p class="font-mono text-xs tracking-widest uppercase text-muted mb-2">02 &mdash; Profile</p>
+                    <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">About Me</h2>
+                </div>
+                <div class="text-muted/80 text-base leading-relaxed space-y-6">
+                    <p>
+                        I am a Cyber Security undergraduate at <strong class="text-white font-medium">Ghulam Ishaq Khan Institute (GIKI '27)</strong>, specialising in cryptographic systems and AI engineering. I currently hold the <strong class="text-white font-medium">#1 rank in Pakistan</strong> on HackerRank's AI Leaderboard.
+                    </p>
+                    <p>
+                        My technical focus bridges the gap between hard security and machine learning. I've engineered post-quantum threat simulators like <span class="font-mono text-sm text-purple">CryptoCore</span> to model the vulnerability of current encryption standards, and developed <span class="font-mono text-sm text-purple">ContextTrace</span>, an LLM-as-a-Judge framework that quantifiably reduces hallucination rates in production RAG systems.
+                    </p>
+                    <p>
+                        Professionally, I've delivered RLHF workflows at <strong class="text-white font-medium">Swift Solutions</strong> to improve project lead conversions, and supported extensive ML model training as an AI Data Annotator at <strong class="text-white font-medium">Appen</strong>. I am actively seeking remote contract roles or Summer 2026 internships where I can contribute to cyber operations and AI security.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ PROJECTS ═══════════ -->
+    <section id="projects" class="py-24 border-t border-border relative z-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-16 reveal">
+                <p class="font-mono text-xs tracking-widest uppercase text-muted mb-2">03 &mdash; Deployments</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">Featured Projects</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- CryptoCore -->
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="card-glow-top"></div>
+                    <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 text-white">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                    </div>
+                    <div class="flex items-start justify-between mb-2">
+                        <h3 class="text-lg font-semibold tracking-tight text-white">CryptoCore</h3>
+                        <span class="font-mono text-[10px] text-muted">01 &middot; Apr 2026</span>
+                    </div>
+                    <p class="font-mono text-xs text-purple mb-4">Post-Quantum Threat Simulator</p>
+                    <p class="text-sm text-muted/80 leading-relaxed mb-8">
+                        Simulates "Harvest Now, Decrypt Later" threat models using Shor's Algorithm to mathematically demonstrate ECC's higher quantum vulnerability compared to classical RSA.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-8 mt-auto">
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Python</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">C++</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Post-Quantum</span>
+                    </div>
+                    <div class="flex gap-6 pt-2 border-t border-border">
+                        <a href="https://github.com/aayanrashid995" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+
+                <!-- ContextTrace -->
+                <div class="glass-card p-8 rounded-xl reveal" style="transition-delay: 100ms;">
+                    <div class="card-glow-top"></div>
+                    <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 text-white">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/></svg>
+                    </div>
+                    <div class="flex items-start justify-between mb-2">
+                        <h3 class="text-lg font-semibold tracking-tight text-white">ContextTrace</h3>
+                        <span class="font-mono text-[10px] text-muted">02 &middot; Mar 2026</span>
+                    </div>
+                    <p class="font-mono text-xs text-purple mb-4">AI Quality Evaluator</p>
+                    <p class="text-sm text-muted/80 leading-relaxed mb-8">
+                        Automated Side-by-Side framework benchmarking RAG accuracy and safety. Quantifiably reduces hallucination rates in production LLM outputs.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-8 mt-auto">
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">LangChain</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Gemini API</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">RAG</span>
+                    </div>
+                    <div class="flex gap-6 pt-2 border-t border-border">
+                        <a href="https://github.com/aayanrashid995" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+
+                <!-- VERITAS -->
+                <div class="glass-card p-8 rounded-xl reveal" style="transition-delay: 200ms;">
+                    <div class="card-glow-top"></div>
+                    <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 text-white">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+                    </div>
+                    <div class="flex items-start justify-between mb-2">
+                        <h3 class="text-lg font-semibold tracking-tight text-white">VERITAS</h3>
+                        <span class="font-mono text-[10px] text-muted">03 &middot; Oct 2025</span>
+                    </div>
+                    <p class="font-mono text-xs text-purple mb-4">ML Forensic Log Analyzer</p>
+                    <p class="text-sm text-muted/80 leading-relaxed mb-8">
+                        Forensic automation tool reducing log review time by <strong class="text-white font-medium">70%</strong>. Tuned Random Forest model achieves <strong class="text-white font-medium">96% accuracy</strong> in alibi verification.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-8 mt-auto">
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Scikit-Learn</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Random Forest</span>
+                    </div>
+                    <div class="flex gap-6 pt-2 border-t border-border">
+                        <a href="https://github.com/aayanrashid995/Veritas" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="project-veritas-report.pdf" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">Report <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+
+                <!-- Enigma -->
+                <div class="glass-card p-8 rounded-xl reveal">
+                    <div class="card-glow-top"></div>
+                    <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 text-white">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+                    </div>
+                    <div class="flex items-start justify-between mb-2">
+                        <h3 class="text-lg font-semibold tracking-tight text-white">Enigma</h3>
+                        <span class="font-mono text-[10px] text-muted">04 &middot; May 2025</span>
+                    </div>
+                    <p class="font-mono text-xs text-purple mb-4">Zero-Trust Secure Vault</p>
+                    <p class="text-sm text-muted/80 leading-relaxed mb-8">
+                        Zero-trust vault with client-side encryption and honey-links for active defence against unauthorised access. Built on a SQL backend with full audit trail.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-8 mt-auto">
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Python</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Cryptography</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Active Defense</span>
+                    </div>
+                    <div class="flex gap-6 pt-2 border-t border-border">
+                        <a href="https://github.com/aayanrashid995" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+
+                <!-- TripSync -->
+                <div class="glass-card p-8 rounded-xl reveal" style="transition-delay: 100ms;">
+                    <div class="card-glow-top"></div>
+                    <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 text-white">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z"/></svg>
+                    </div>
+                    <div class="flex items-start justify-between mb-2">
+                        <h3 class="text-lg font-semibold tracking-tight text-white">TripSync</h3>
+                        <span class="font-mono text-[10px] text-muted">05</span>
+                    </div>
+                    <p class="font-mono text-xs text-purple mb-4">Real-Time Travel Companion</p>
+                    <p class="text-sm text-muted/80 leading-relaxed mb-8">
+                        Group travel app with real-time collaboration, expense splitting, and Booking.com API integration. Secure Google auth and live chat via Firebase.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-8 mt-auto">
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">React Vite</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Firebase</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">APIs</span>
+                    </div>
+                    <div class="flex gap-6 pt-2 border-t border-border">
+                        <a href="https://github.com/aayanrashid995/TripSync" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">GitHub <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                        <a href="project-tripsync-report.pdf" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">Report <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+
+                <!-- PacketWatch -->
+                <div class="glass-card p-8 rounded-xl reveal" style="transition-delay: 200ms;">
+                    <div class="card-glow-top"></div>
+                    <div class="w-12 h-12 bg-white/5 border border-white/10 rounded-lg flex items-center justify-center mb-6 text-white">
+                        <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.288 15.038a5.25 5.25 0 017.424 0M5.106 11.856c3.807-3.808 9.98-3.808 13.788 0M1.924 8.674c5.565-5.565 14.587-5.565 20.152 0M12.53 18.22l-.53.53-.53-.53a.75.75 0 011.06 0z"/></svg>
+                    </div>
+                    <div class="flex items-start justify-between mb-2">
+                        <h3 class="text-lg font-semibold tracking-tight text-white">PacketWatch</h3>
+                        <span class="font-mono text-[10px] text-muted">06</span>
+                    </div>
+                    <p class="font-mono text-xs text-purple mb-4">Network Packet Sniffer</p>
+                    <p class="text-sm text-muted/80 leading-relaxed mb-8">
+                        Real-time packet capture tool with AVL Tree-backed analysis and a Scapy-powered GUI for network traffic forensics.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-8 mt-auto">
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Python</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Scapy</span>
+                        <span class="px-2.5 py-1 text-[11px] font-mono border border-borderBright text-muted rounded-md bg-black/50">Wireshark</span>
+                    </div>
+                    <div class="flex gap-6 pt-2 border-t border-border">
+                        <a href="project-sniffer-report.pdf" target="_blank" class="text-sm font-medium text-muted hover:text-white transition-colors flex items-center gap-1 mt-4">Report <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ EXPERIENCE ═══════════ -->
+    <section id="experience" class="py-24 border-t border-border bg-black relative z-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-16 reveal">
+                <p class="font-mono text-xs tracking-widest uppercase text-muted mb-2">04 &mdash; Leadership</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">Experience</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                <!-- Topi -->
+                <div class="glass-card p-8 lg:p-10 rounded-xl">
+                    <div class="card-glow-top"></div>
+                    <p class="font-mono text-[10px] text-muted tracking-widest mb-6 uppercase">01 / Leadership</p>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-white/5 border border-borderBright rounded-lg flex items-center justify-center shrink-0 text-white">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38c-.551.318-1.26.117-1.527-.461a20.845 20.845 0 01-1.44-4.282m3.102.069a18.03 18.03 0 01-.59-4.59c0-1.586.205-3.124.59-4.59m0 9.18a23.848 23.848 0 018.835 2.535M10.34 6.66a23.847 23.847 0 008.835-2.535m0 0A23.74 23.74 0 0018.795 3m.38 1.125a23.91 23.91 0 011.014 5.395m-1.014 8.855c-.118.38-.245.754-.38 1.125m.38-1.125a23.91 23.91 0 001.014-5.395m0-3.46c.495.413.811 1.035.811 1.73 0 .695-.316 1.317-.811 1.73m0-3.46a24.347 24.347 0 010 3.46"/></svg>
                         </div>
-                        
-                        <div class="text-lg font-medium ml-2">
-                            Score: <span id="score" class="font-bold text-purple-600 dark:text-purple-400">0</span>
+                        <div>
+                            <h3 class="text-base font-semibold text-white">Media & Outreach Lead</h3>
+                            <p class="font-mono text-xs text-purple mt-1">Project Topi &middot; GIKI</p>
                         </div>
                     </div>
-                    
-                    <div class="w-full max-w-[400px] relative">
-                        <canvas id="game-canvas" width="400" height="400" class="w-full h-auto"></canvas>
-                        <div id="pause-overlay" class="absolute inset-0 flex items-center justify-center bg-black/50 text-white text-4xl font-bold rounded-lg hidden">
+                    <ul class="space-y-4">
+                        <li class="text-sm text-muted/80 leading-relaxed pl-4 border-l border-borderBright">Lead media coverage for all society events, including KHSB'24.</li>
+                        <li class="text-sm text-muted/80 leading-relaxed pl-4 border-l border-borderBright">Manage social media presence to boost engagement and awareness.</li>
+                        <li class="text-sm text-muted/80 leading-relaxed pl-4 border-l border-borderBright">Assist in fundraising and community outreach for underserved communities.</li>
+                    </ul>
+                </div>
+
+                <!-- IEEE -->
+                <div class="glass-card p-8 lg:p-10 rounded-xl">
+                    <div class="card-glow-top"></div>
+                    <p class="font-mono text-[10px] text-muted tracking-widest mb-6 uppercase">02 / Technical</p>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-white/5 border border-borderBright rounded-lg flex items-center justify-center shrink-0 text-white">
+                            <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-semibold text-white">Technical Team Member</h3>
+                            <p class="font-mono text-xs text-purple mt-1">IEEE GIK Chapter</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-4">
+                        <li class="text-sm text-muted/80 leading-relaxed pl-4 border-l border-borderBright">Critical technical support during NEO'24 (National Electronics Olympiad).</li>
+                        <li class="text-sm text-muted/80 leading-relaxed pl-4 border-l border-borderBright">Real-time troubleshooting of equipment and software for participants.</li>
+                        <li class="text-sm text-muted/80 leading-relaxed pl-4 border-l border-borderBright">Collaborate with the organising committee to plan and execute technical events.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ EDUCATION + CERTS ═══════════ -->
+    <section id="education" class="py-24 border-t border-border relative z-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-16 reveal">
+                <p class="font-mono text-xs tracking-widest uppercase text-muted mb-2">05 &mdash; Background</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">Education &amp; Certifications</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                <!-- Education -->
+                <div class="glass-card p-8 lg:p-10 rounded-xl">
+                    <p class="font-mono text-xs tracking-widest uppercase text-muted mb-8">Education</p>
+                    <div class="flex gap-4 items-start">
+                        <div class="pt-1 flex flex-col items-center">
+                            <div class="w-2.5 h-2.5 bg-white rounded-full"></div>
+                            <div class="w-px bg-borderBright h-16 mt-2"></div>
+                        </div>
+                        <div>
+                            <p class="font-mono text-[11px] text-purple tracking-wider mb-2">Sep 2023 — May 2027 (Expected)</p>
+                            <h4 class="text-base font-semibold text-white mb-1">B.Sc. Cyber Security</h4>
+                            <p class="text-sm text-muted/80">Ghulam Ishaq Khan Institute (GIKI)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certs -->
+                <div class="glass-card p-8 lg:p-10 rounded-xl">
+                    <p class="font-mono text-xs tracking-widest uppercase text-muted mb-6">Key Certifications</p>
+                    <div class="space-y-0">
+                        <div class="flex items-start gap-4 py-4 border-b border-border">
+                            <div class="w-1.5 h-1.5 bg-purple rounded-full shrink-0 mt-2"></div>
+                            <div>
+                                <p class="text-sm font-medium text-white mb-1">Certified API Security Fundamentals</p>
+                                <p class="font-mono text-[11px] text-muted">APIsec University</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 py-4 border-b border-border">
+                            <div class="w-1.5 h-1.5 bg-purple rounded-full shrink-0 mt-2"></div>
+                            <div>
+                                <p class="text-sm font-medium text-white mb-1">Google AI Essentials</p>
+                                <p class="font-mono text-[11px] text-muted">Google</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 py-4 border-b border-border">
+                            <div class="w-1.5 h-1.5 bg-purple rounded-full shrink-0 mt-2"></div>
+                            <div>
+                                <p class="text-sm font-medium text-white mb-1">Critical Infrastructure Protection (CIP)</p>
+                                <p class="font-mono text-[11px] text-muted">OPSWAT Academy</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4 pt-4">
+                            <div class="w-1.5 h-1.5 bg-purple rounded-full shrink-0 mt-2"></div>
+                            <div>
+                                <p class="text-sm font-medium text-white mb-1">Intro to Cybersecurity</p>
+                                <p class="font-mono text-[11px] text-muted">Cisco Networking Academy</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ SKILLS ═══════════ -->
+    <section id="skills" class="py-24 border-t border-border bg-black relative z-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-16 reveal">
+                <p class="font-mono text-xs tracking-widest uppercase text-muted mb-2">06 &mdash; Capabilities</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">Skills</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                <div class="glass-card p-8 lg:p-10 rounded-xl">
+                    <p class="font-mono text-xs tracking-widest uppercase text-muted mb-8">Technical</p>
+                    <div class="flex flex-wrap gap-2.5">
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Python</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">C++</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">React (Vite)</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Firebase</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Scikit-Learn</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Streamlit</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">SHAP (XAI)</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">API Security (OWASP)</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Network Analysis</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Snort IDS</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Nmap & Hydra</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Linux (Kali/Parrot)</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Cryptography</span>
+                        <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md hover:border-purple hover:text-purple transition-colors cursor-default">Technical Research</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-rows-[auto_1fr] gap-6">
+                    <div class="glass-card p-8 lg:p-10 rounded-xl">
+                        <p class="font-mono text-xs tracking-widest uppercase text-muted mb-8">Professional</p>
+                        <div class="flex flex-wrap gap-2.5">
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Project Management</span>
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Technical Writing</span>
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Team Leadership</span>
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Event Logistics</span>
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Digital Arts & Design</span>
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Community Outreach</span>
+                        </div>
+                    </div>
+                    <div class="glass-card p-8 lg:p-10 rounded-xl">
+                        <p class="font-mono text-xs tracking-widest uppercase text-muted mb-8">Languages</p>
+                        <div class="flex flex-wrap gap-2.5">
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">English (C2)</span>
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Urdu (Native)</span>
+                            <span class="px-3 py-1.5 border border-borderBright text-xs font-medium text-white/90 bg-white/5 rounded-md cursor-default hover:border-purple transition-colors">Arabic (B2)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ GAME ═══════════ -->
+    <section id="game" class="py-24 border-t border-border relative z-20">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="mb-16 reveal">
+                <p class="font-mono text-xs tracking-widest uppercase text-muted mb-2">07 &mdash; Easter Egg</p>
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white">Take a Break</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-12 reveal glass-card p-8 rounded-xl">
+                <div>
+                    <div class="flex flex-wrap items-center gap-3 mb-6">
+                        <button id="start-game-btn" class="px-5 py-2 text-xs font-semibold tracking-widest uppercase border border-borderBright text-white hover:bg-white hover:text-black transition-colors rounded-sm">Start Game</button>
+                        <button id="pause-game-btn" class="hidden px-5 py-2 text-xs font-semibold tracking-widest uppercase border border-borderBright text-white hover:bg-white/10 transition-colors rounded-sm">Pause</button>
+                        
+                        <div id="submit-score-form" class="hidden items-center gap-2">
+                            <input type="text" id="player-name" placeholder="ABC" maxlength="3" class="bg-surface2 border border-borderBright text-white font-mono text-sm px-3 py-2 text-center uppercase w-16 focus:outline-none focus:border-purple rounded-sm">
+                            <button id="submit-score-btn" class="px-5 py-2 text-xs font-semibold tracking-widest uppercase bg-purple text-black hover:bg-white transition-colors rounded-sm">Save</button>
+                        </div>
+                        <span class="font-mono text-sm text-muted ml-auto">Score: <span id="score" class="text-white font-bold">0</span></span>
+                    </div>
+
+                    <div class="relative w-full max-w-[500px] mx-auto rounded-sm overflow-hidden border border-borderBright">
+                        <canvas id="game-canvas" width="400" height="400" class="w-full bg-[#0a0a0a] block touch-none"></canvas>
+                        <div id="pause-overlay" class="absolute inset-0 bg-black/60 backdrop-blur-sm hidden flex-col items-center justify-center font-mono text-xl tracking-widest text-white z-10">
                             PAUSED
                         </div>
                     </div>
-                    
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mt-4">Use Arrow Keys (or swipe) to move. Press 'P' to pause.</p>
                 </div>
-                
-                <div class="w-full md:w-64 flex-shrink-0">
-                    <h3 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-200">High Scores</h3>
-                    <div id="leaderboard" class="space-y-2">
-                        <div id="leaderboard-loader" class="flex justify-center items-center h-24">
-                            <svg class="animate-spin h-8 w-8 text-purple-600 dark:text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+
+                <div class="md:border-l md:border-border md:pl-8">
+                    <p class="font-mono text-xs tracking-widest uppercase text-muted mb-6 border-b border-border pb-3">Leaderboard</p>
+                    <div id="leaderboard" class="space-y-3">
+                        <div id="leaderboard-loader" class="flex justify-center p-8">
+                            <svg class="animate-spin w-5 h-5 text-purple" fill="none" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" opacity="0.25"/>
+                                <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" opacity="0.75"/>
                             </svg>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="contact" class="mt-24 text-center">
-            <h2 class="text-3xl font-bold mb-6">Get In Touch</h2>
-            <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-                I am actively seeking Master's opportunities in Germany and am open to internships and research opportunities in the cybersecurity field. I'm excited to connect and discuss how my skills can be an asset to your team.
+    <!-- ═══════════ CONTACT ═══════════ -->
+    <section id="contact" class="py-32 border-t border-border relative overflow-hidden bg-black z-20">
+        <div class="max-w-4xl mx-auto px-6 text-center relative z-10 reveal">
+            <p class="font-mono text-xs tracking-widest uppercase text-muted mb-6">08 &mdash; Contact</p>
+            <h2 class="text-4xl sm:text-5xl lg:text-7xl font-bold tracking-tight text-white mb-8">Let's Connect</h2>
+            <p class="text-base text-muted/80 leading-relaxed max-w-xl mx-auto mb-12">
+                Actively seeking Master's opportunities in Germany and open to remote internships or research roles in cybersecurity.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
-                <a href="mailto:u2023002@giki.edu.pk" 
-                   class="inline-block px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-lg shadow-lg transition-all text-lg transform hover:scale-105">
-                    Email Me
-                </a>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-24">
-        <div class="container mx-auto max-w-5xl px-6 py-8 flex flex-col md:flex-row justify-between items-center text-gray-600 dark:text-gray-400">
-            <p class="text-sm">&copy; 2025 Aayan Rashid Wahab. All rights reserved.</p>
-            <div class="flex gap-6 mt-4 md:mt-0">
-                <a href="https://github.com/killerpanda9995" target="_blank" rel="noopener noreferrer" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors text-sm">
-                    GitHub
-                </a>
-                <a href="https://www.linkedin.com/in/aayanrashid/" target="_blank" rel="noopener noreferrer" class="hover:text-purple-500 dark:hover:text-purple-300 transition-colors text-sm">
-                    LinkedIn
-                </a>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="mailto:u2023002@giki.edu.pk" class="px-8 py-3.5 btn-primary rounded-sm text-sm font-semibold tracking-widest uppercase">Email Me &rarr;</a>
+                <a href="https://www.linkedin.com/in/aayanrashid/" target="_blank" class="px-8 py-3.5 btn-ghost rounded-sm text-sm font-medium tracking-widest uppercase">LinkedIn</a>
             </div>
         </div>
-    </footer>
+    </section>
+</main>
 
-    <button id="back-to-top" class="hidden fixed bottom-8 right-8 bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110 focus:outline-none">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-        </svg>
-    </button>
-    
-    <div id="restart-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-sm w-full p-6 text-center">
-            <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Restart Game?</h3>
-            <p class="text-gray-600 dark:text-gray-300 mb-6">Are you sure you want to restart? Your current score will be lost.</p>
-            <div class="flex justify-center gap-4">
-                <button id="confirm-restart-btn" class="px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg shadow-md transition-all">
-                    Restart
-                </button>
-                <button id="cancel-restart-btn" class="px-6 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-medium rounded-lg shadow-md transition-all">
-                    Cancel
-                </button>
-            </div>
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="p-8 bg-[#030303] relative z-20">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 border-t border-border pt-8">
+        <p class="text-sm text-muted/60">&copy; 2026 Aayan Rashid Wahab.</p>
+        <div class="flex gap-6">
+            <a href="https://github.com/aayanrashid995" target="_blank" class="text-sm text-muted/60 hover:text-white transition-colors">GitHub</a>
+            <a href="https://www.linkedin.com/in/aayanrashid/" target="_blank" class="text-sm text-muted/60 hover:text-white transition-colors">LinkedIn</a>
         </div>
     </div>
+</footer>
 
-    <div id="cat-trigger"></div> <img id="peeking-cat" src="peeking-cat.png" alt="A cat peeking from the bottom of the page">
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    const firebaseConfig = {
+        apiKey: "", 
+        authDomain: "my-portfolio-leaderboard.firebaseapp.com",
+        projectId: "my-portfolio-leaderboard",
+        storageBucket: "my-portfolio-leaderboard.firebasestorage.app",
+        messagingSenderId: "82824527056",
+        appId: "1:82824527056:web:e78f74e39b5b3be36cb2d5",
+        measurementId: "G-BG3CYZJ9JJ"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const highscoresCol = collection(db, "highscores");
 
-    <script type="module">
-        // Import the functions you need from the SDKs
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    // ── GAME LOGIC ──
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    const startBtn = document.getElementById('start-game-btn');
+    const pauseBtn = document.getElementById('pause-game-btn');
+    const pauseOverlay = document.getElementById('pause-overlay');
+    const scoreEl = document.getElementById('score');
+    const leaderboardEl = document.getElementById('leaderboard');
+    const leaderboardLoader = document.getElementById('leaderboard-loader');
+    const submitScoreForm = document.getElementById('submit-score-form');
+    const playerNameInput = document.getElementById('player-name');
+    const submitScoreBtn = document.getElementById('submit-score-btn');
 
-        // --- Your Firebase Config ---
-        // This is your actual config, pasted in
-        const firebaseConfig = {
-            apiKey: "",
-            authDomain: "my-portfolio-leaderboard.firebaseapp.com",
-            projectId: "my-portfolio-leaderboard",
-            storageBucket: "my-portfolio-leaderboard.firebasestorage.app",
-            messagingSenderId: "82824527056",
-            appId: "1:82824527056:web:e78f74e39b5b3be36cb2d5",
-            measurementId: "G-BG3CYZJ9JJ"
+    const grid = 20;
+    let count = 0, score = 0;
+    let snake = [{ x: 160, y: 160 }];
+    let food = {};
+    let dx = grid, dy = 0;
+    let gameLoop, isGameRunning = false, isGamePaused = false, foodPulse = 0;
+
+    const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+    function resetGame() {
+        snake = [{ x: 160, y: 160 }];
+        dx = grid; dy = 0; score = 0;
+        scoreEl.textContent = '0';
+        placeFood();
+        startBtn.textContent = "Start Game";
+        isGameRunning = false; isGamePaused = false;
+        pauseOverlay.style.display = 'none';
+        pauseBtn.classList.add('hidden');
+    }
+
+    function placeFood() {
+        food = {
+            x: getRandomInt(0, canvas.width / grid) * grid,
+            y: getRandomInt(0, canvas.height / grid) * grid
         };
-        // --------------------------------------------------
+    }
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const highscoresCol = collection(db, "highscores");
-        
-        // --- Game & Leaderboard Logic ---
-        const canvas = document.getElementById('game-canvas');
-        const ctx = canvas.getContext('2d');
-        const startBtn = document.getElementById('start-game-btn');
-        const pauseBtn = document.getElementById('pause-game-btn');
-        const pauseOverlay = document.getElementById('pause-overlay');
-        const scoreEl = document.getElementById('score');
-        
-        const leaderboardEl = document.getElementById('leaderboard');
-        const leaderboardLoader = document.getElementById('leaderboard-loader');
-        const submitScoreForm = document.getElementById('submit-score-form');
-        const playerNameInput = document.getElementById('player-name');
-        const submitScoreBtn = document.getElementById('submit-score-btn');
-        
-        // Modal elements
-        const restartModal = document.getElementById('restart-modal');
-        const confirmRestartBtn = document.getElementById('confirm-restart-btn');
-        const cancelRestartBtn = document.getElementById('cancel-restart-btn');
+    function loop() {
+        if (isGamePaused) return;
+        gameLoop = requestAnimationFrame(loop);
+        if (++count < 9) return; 
+        count = 0;
 
-        const grid = 20;
-        let count = 0;
-        let score = 0;
-        let snake = [{ x: 160, y: 160 }];
-        let food = {};
-        let dx = grid;
-        let dy = 0;
-        let gameLoop;
-        let isGameRunning = false;
-        let isGamePaused = false;
-        let foodPulse = 0; // For food animation
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min)) + min;
+        // Grid dots
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+        for (let x = 0; x < canvas.width; x += grid) {
+            for (let y = 0; y < canvas.height; y += grid) {
+                ctx.fillRect(x + grid/2 - 1, y + grid/2 - 1, 2, 2);
+            }
         }
 
-        function resetGame() {
-            snake = [{ x: 160, y: 160 }];
-            dx = grid;
-            dy = 0;
-            score = 0;
-            scoreEl.textContent = '0';
-            placeFood();
-            startBtn.textContent = "Start Game";
-            isGameRunning = false;
-            isGamePaused = false;
-            pauseOverlay.classList.add('hidden');
-            pauseBtn.classList.add('hidden');
+        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+        snake.unshift(head);
+
+        // Boundary / Collision
+        if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) { endGame(); return; }
+        for (let i = 1; i < snake.length; i++) {
+            if (head.x === snake[i].x && head.y === snake[i].y) { endGame(); return; }
         }
 
-        function placeFood() {
-            food = {
-                x: getRandomInt(0, canvas.width / grid) * grid,
-                y: getRandomInt(0, canvas.height / grid) * grid
-            };
+        // Food
+        if (head.x === food.x && head.y === food.y) {
+            score++; scoreEl.textContent = score; placeFood();
+        } else { 
+            snake.pop(); 
         }
 
-        // --- Main Game Loop ---
-        function loop() {
-            if (isGamePaused) { // Check if game is paused
-                return;
-            }
-            gameLoop = requestAnimationFrame(loop);
+        // Draw Food
+        foodPulse = (foodPulse + 0.1) % (Math.PI * 2);
+        const ps = grid - 4 + Math.sin(foodPulse) * 2;
+        ctx.fillStyle = '#a78bfa';
+        ctx.fillRect(food.x + (grid - ps) / 2, food.y + (grid - ps) / 2, ps, ps);
 
-            // UPDATED: Slowed down game speed (higher number = slower)
-            if (++count < 10) { 
-                return;
-            }
-            count = 0;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Move snake
-            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-            snake.unshift(head);
-
-            // Check for collision with walls
-            if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
-                endGame();
-                return;
-            }
-
-            // Check for collision with self
-            for (let i = 1; i < snake.length; i++) {
-                if (head.x === snake[i].x && head.y === snake[i].y) {
-                    endGame();
-                    return;
-                }
-            }
-
-            // Check for food
-            if (head.x === food.x && head.y === food.y) {
-                score++;
-                scoreEl.textContent = score;
-                placeFood();
-            } else {
-                snake.pop();
-            }
-
-            // Draw food (apple) - with pulsing effect
-            foodPulse = (foodPulse + 0.1) % (Math.PI * 2);
-            const pulseSize = grid - 1 + Math.sin(foodPulse) * 2;
-            // UPDATED: Food color changed to green
-            ctx.fillStyle = '#22C55E'; // text-green-500
-            ctx.fillRect(food.x + (grid - pulseSize) / 2, food.y + (grid - pulseSize) / 2, pulseSize, pulseSize);
-
-            // Draw snake body
-            // UPDATED: Snake color changed to purple
-            ctx.fillStyle = '#A855F7'; // text-purple-500
-            for (let i = 1; i < snake.length; i++) {
-                ctx.fillRect(snake[i].x, snake[i].y, grid - 1, grid - 1);
-            }
-            
-            // Draw snake head (different color)
-            // UPDATED: Snake head color changed to darker purple
-            ctx.fillStyle = '#7E22CE'; // darker text-purple-700
-            ctx.fillRect(head.x, head.y, grid - 1, grid - 1);
+        // Draw Snake
+        for (let i = 1; i < snake.length; i++) {
+            const alpha = 0.3 + (i / snake.length) * 0.4;
+            ctx.fillStyle = `rgba(255,255,255,${1 - alpha})`;
+            ctx.fillRect(snake[i].x + 1, snake[i].y + 1, grid - 2, grid - 2);
         }
-        
-        // --- Confirmation Modal Logic ---
-        function showRestartModal() {
-            // Pause game if it's running
-            if (isGameRunning && !isGamePaused) {
-                togglePause();
-            }
-            restartModal.classList.remove('hidden');
-        }
-        
-        function hideRestartModal() {
-            // Unpause game if it was running and we pressed cancel
-            if (isGameRunning && isGamePaused) {
-                // Check if the pause button text is "Resume", which means it was paused *by the modal*
-                if (pauseBtn.textContent === "Resume") {
-                    togglePause();
-                }
-            }
-            restartModal.classList.add('hidden');
-        }
-        
-        cancelRestartBtn.addEventListener('click', hideRestartModal);
-        
-        confirmRestartBtn.addEventListener('click', () => {
-            restartModal.classList.add('hidden');
-            if (isGamePaused) { // Unpause before starting
-                isGamePaused = false;
-            }
-            startGame();
-        });
-        
-        // UPDATED: Start button now calls the confirmation modal if game is running
-        startBtn.addEventListener('click', () => {
-            if (isGameRunning) {
-                showRestartModal();
-            } else {
-                startGame();
-            }
-        });
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(head.x + 1, head.y + 1, grid - 2, grid - 2);
+    }
 
-        function startGame() {
-            submitScoreForm.classList.add('hidden');
+    function startGame() {
+        submitScoreForm.classList.remove('flex');
+        submitScoreForm.classList.add('hidden');
+        startBtn.classList.remove('hidden');
+        if (isGameRunning) cancelAnimationFrame(gameLoop);
+        resetGame();
+        isGameRunning = true; 
+        isGamePaused = false;
+        startBtn.textContent = "Restart";
+        pauseBtn.classList.remove('hidden');
+        gameLoop = requestAnimationFrame(loop);
+    }
+
+    function endGame() {
+        cancelAnimationFrame(gameLoop);
+        isGameRunning = false;
+        pauseBtn.classList.add('hidden');
+        startBtn.classList.add('hidden');
+
+        if (score > 0) {
+            submitScoreForm.classList.remove('hidden');
+            submitScoreForm.classList.add('flex');
+        } else {
+            startBtn.textContent = "Try Again";
             startBtn.classList.remove('hidden');
-            
-            if (isGameRunning) {
-                cancelAnimationFrame(gameLoop);
-            }
-            resetGame(); // Reset game state
-            isGameRunning = true;
-            isGamePaused = false;
-            pauseOverlay.classList.add('hidden');
-            startBtn.textContent = "Restart Game";
+        }
+
+        ctx.fillStyle = 'rgba(0,0,0,0.6)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#fff';
+        ctx.font = '600 1.5rem "Inter", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2 - 10);
+        ctx.font = '400 0.9rem "JetBrains Mono", monospace';
+        ctx.fillStyle = '#a78bfa';
+        ctx.fillText(`Final Score: ${score}`, canvas.width / 2, canvas.height / 2 + 20);
+    }
+
+    function togglePause() {
+        if (!isGameRunning) return;
+        isGamePaused = !isGamePaused;
+        if (isGamePaused) {
+            pauseOverlay.style.display = 'flex';
+            pauseBtn.textContent = "Resume";
+        } else {
+            pauseOverlay.style.display = 'none';
             pauseBtn.textContent = "Pause";
-            pauseBtn.classList.remove('hidden'); // Show pause button
             gameLoop = requestAnimationFrame(loop);
         }
+    }
 
-        function endGame() {
-            cancelAnimationFrame(gameLoop);
-            isGameRunning = false;
-            pauseBtn.classList.add('hidden'); // Hide pause button
-            
-            startBtn.classList.add('hidden');
-            if (score > 0) {
-                submitScoreForm.classList.remove('hidden');
-            } else {
-                startBtn.textContent = "Start Over";
-                startBtn.classList.remove('hidden');
+    startBtn.addEventListener('click', startGame);
+    pauseBtn.addEventListener('click', togglePause);
+
+    // ── LEADERBOARD ──
+    async function getLeaderboard() {
+        leaderboardEl.innerHTML = '';
+        leaderboardEl.appendChild(leaderboardLoader);
+        try {
+            const q = query(highscoresCol, orderBy("score", "desc"), limit(5));
+            const snap = await getDocs(q);
+            leaderboardLoader.style.display = 'none';
+            if (snap.empty) {
+                leaderboardEl.innerHTML = '<p class="text-sm text-muted">No scores yet.</p>';
+                return;
             }
-
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = 'white';
-            ctx.font = '40px Inter, sans-serif';
-            ctx.textAlign = 'center';
-            ctx.fillText('Game Over!', canvas.width / 2, canvas.height / 2 - 20);
-            ctx.font = '20px Inter, sans-serif';
-            ctx.fillText(`Final Score: ${score}`, canvas.width / 2, canvas.height / 2 + 20);
+            let rank = 1;
+            snap.forEach(doc => {
+                const d = doc.data();
+                const row = document.createElement('div');
+                row.className = 'flex justify-between items-center text-sm py-2 border-b border-border';
+                row.innerHTML = `<span class="text-white/90">${rank}. ${d.name}</span><span class="text-purple font-mono">${d.score}</span>`;
+                leaderboardEl.appendChild(row);
+                rank++;
+            });
+        } catch(e) {
+            leaderboardEl.innerHTML = '<p class="text-sm text-red-400">Unable to load scores.</p>';
         }
+    }
 
-        // --- New Pause Function ---
-        function togglePause() {
-            if (!isGameRunning) return; // Don't pause if game isn't running
-            
-            isGamePaused = !isGamePaused;
-            if (isGamePaused) {
-                pauseOverlay.classList.remove('hidden');
-                pauseBtn.textContent = "Resume";
-            } else {
-                pauseOverlay.classList.add('hidden');
-                pauseBtn.textContent = "Pause";
-                gameLoop = requestAnimationFrame(loop); // Resume the game loop
-            }
-        }
-
-        pauseBtn.addEventListener('click', togglePause); // Add listener to pause button
-
-        // --- New Firebase Leaderboard Functions ---
-
-        async function getLeaderboard() {
-            leaderboardLoader.classList.remove('hidden');
-            leaderboardEl.innerHTML = ''; // Clear current board
-
-            try {
-                // Query: get the top 5 scores, ordered by score descending
-                const q = query(highscoresCol, orderBy("score", "desc"), limit(5));
-                const querySnapshot = await getDocs(q);
-                
-                leaderboardLoader.classList.add('hidden');
-                
-                if (querySnapshot.empty) {
-                    leaderboardEl.innerHTML = '<p class="text-gray-500 dark:text-gray-400">No scores yet. Be the first!</p>';
-                    return;
-                }
-
-                let rank = 1;
-                querySnapshot.forEach((doc) => {
-                    const entry = doc.data();
-                    const scoreRow = document.createElement('div');
-                    scoreRow.className = 'flex justify-between items-center p-2 rounded-lg bg-gray-100 dark:bg-gray-800';
-                    scoreRow.innerHTML = `
-                        <span class="font-medium text-gray-800 dark:text-gray-200">${rank}. ${entry.name}</span>
-                        <span class="font-bold text-purple-600 dark:text-purple-400">${entry.score}</span>
-                    `;
-                    leaderboardEl.appendChild(scoreRow);
-                    rank++;
-                });
-
-            } catch (e) {
-                console.error("Error getting leaderboard: ", e);
-                leaderboardLoader.classList.add('hidden');
-                leaderboardEl.innerHTML = '<p class="text-red-500">Error loading scores.</p>';
-            }
-        }
-
-        async function submitScore() {
-            let name = playerNameInput.value.toUpperCase().trim();
-            if (name.length === 0) name = 'AAA';
-            if (name.length > 3) name = name.substring(0, 3);
-            
-            submitScoreBtn.disabled = true;
-            submitScoreBtn.textContent = '...';
-
-            try {
-                await addDoc(highscoresCol, {
-                    name: name,
-                    score: score,
-                    createdAt: new Date()
-                });
-                
-                // Refresh leaderboard
-                await getLeaderboard();
-                
-            } catch (e) {
-                console.error("Error adding document: ", e);
-                alert("Error submitting score.");
-            }
-            
-            // Reset UI
-            submitScoreForm.classList.add('hidden');
-            startBtn.textContent = "Start Over";
-            startBtn.classList.remove('hidden');
-            playerNameInput.value = '';
-            submitScoreBtn.disabled = false;
-            submitScoreBtn.textContent = 'Submit';
-        }
+    async function submitScore() {
+        let name = playerNameInput.value.toUpperCase().trim() || 'ANON';
+        if (name.length > 3) name = name.slice(0, 3);
         
-        submitScoreBtn.addEventListener('click', submitScore);
+        submitScoreBtn.disabled = true;
+        submitScoreBtn.textContent = '...';
+        
+        try {
+            await addDoc(highscoresCol, { name, score, createdAt: new Date() });
+            await getLeaderboard();
+        } catch(e) {}
+        
+        submitScoreForm.classList.remove('flex');
+        submitScoreForm.classList.add('hidden');
+        startBtn.textContent = "Play Again";
+        startBtn.classList.remove('hidden');
+        playerNameInput.value = '';
+        submitScoreBtn.disabled = false;
+        submitScoreBtn.textContent = 'Save';
+    }
 
-        // Initial display on page load
-        getLeaderboard();
+    submitScoreBtn.addEventListener('click', submitScore);
+    getLeaderboard();
 
-        // Keyboard controls
-        document.addEventListener('keydown', e => {
-            // Pause game with 'P' key
-            if (e.key === 'p' || e.key === 'P') {
-                e.preventDefault(); // Prevent typing 'p' in the input
-                togglePause();
-                return;
-            }
+    // ── CONTROLS ──
+    document.addEventListener('keydown', e => {
+        if (e.key === 'p' || e.key === 'P') { e.preventDefault(); togglePause(); return; }
+        if (!isGameRunning || isGamePaused) return;
+        if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+        if (e.key === 'ArrowLeft' && dx === 0)  { dx = -grid; dy = 0; }
+        else if (e.key === 'ArrowUp' && dy === 0)   { dx = 0; dy = -grid; }
+        else if (e.key === 'ArrowRight' && dx === 0) { dx = grid; dy = 0; }
+        else if (e.key === 'ArrowDown' && dy === 0)  { dx = 0; dy = grid; }
+    });
 
-            if (!isGameRunning || isGamePaused) return;
-            
-            // Prevent page scroll with arrow keys
-            if (e.key === 'ArrowUp' || e.key === 'ArrowDown' || e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                e.preventDefault();
-            }
-
-            if (e.key === 'ArrowLeft' && dx === 0) { dx = -grid; dy = 0; }
-            else if (e.key === 'ArrowUp' && dy === 0) { dx = 0; dy = -grid; }
-            else if (e.key === 'ArrowRight' && dx === 0) { dx = grid; dy = 0; }
-            else if (e.key === 'ArrowDown' && dy === 0) { dx = 0; dy = grid; }
+    // ── MOUSE EFFECT (CARDS) ──
+    document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
         });
+    });
 
-        // Touch controls
-        let touchStartX = 0;
-        let touchStartY = 0;
+    // ── SCROLL REVEAL ──
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        canvas.addEventListener('touchstart', e => {
-            if (!isGameRunning) {
-                // Don't start on tap, only on button click
-                return;
-            }
-            if (isGamePaused) {
-                togglePause(); // Unpause on tap if paused
-                return;
-            }
-            e.preventDefault();
-            touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
-        }, { passive: false });
-
-        canvas.addEventListener('touchmove', e => {
-            e.preventDefault();
-        }, { passive: false });
-
-        canvas.addEventListener('touchend', e => {
-            if (!isGameRunning || isGamePaused) return;
-            e.preventDefault();
-            let touchEndX = e.changedTouches[0].clientX;
-            let touchEndY = e.changedTouches[0].clientY;
-            
-            let deltaX = touchEndX - touchStartX;
-            let deltaY = touchEndY - touchStartY;
-            
-            // Check for minimal swipe distance to avoid accidental taps
-            if (Math.abs(deltaX) < 30 && Math.abs(deltaY) < 30) return;
-
-            if (Math.abs(deltaX) > Math.abs(deltaY)) { // Horizontal swipe
-                if (deltaX > 0 && dx === 0) { // Right
-                    dx = grid; dy = 0;
-                } else if (deltaX < 0 && dx === 0) { // Left
-                    dx = -grid; dy = 0;
-                }
-            } else { // Vertical swipe
-                if (deltaY > 0 && dy === 0) { // Down
-                    dx = 0; dy = grid;
-                } else if (deltaY < 0 && dy === 0) { // Up
-                    dx = 0; dy = -grid;
-                }
-            }
-        }, { passive: false });
-
-        // --- Other Page Scripts (Dark Mode, Scroll, etc.) ---
-
-        // --- Mobile Menu Toggle ---
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const menuIconOpen = document.getElementById('menu-icon-open');
-        const menuIconClose = document.getElementById('menu-icon-close');
-        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link');
-
-        menuBtn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-            menuIconOpen.classList.toggle('hidden');
-            menuIconClose.classList.toggle('hidden');
-        });
-
-        mobileMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-                menuIconOpen.classList.remove('hidden');
-                menuIconClose.classList.add('hidden');
-            });
-        });
-
-        // --- Dark Mode Toggle ---
-        const themeToggle = document.getElementById('theme-toggle');
-        const lightIcon = document.getElementById('theme-icon-light');
-        const darkIcon = document.getElementById('theme-icon-dark');
-
-        // Function to set icon state
-        function setIconState() {
-            if (document.documentElement.classList.contains('dark')) {
-                lightIcon.classList.remove('hidden'); // Show SUN icon in dark mode
-                darkIcon.classList.add('hidden'); // Hide MOON icon in dark mode
-            } else {
-                darkIcon.classList.remove('hidden'); // Show MOON icon in light mode
-                lightIcon.classList.add('hidden'); // Hide SUN icon in light mode
-            }
-        }
-
-        // Set initial icon state on load
-        setIconState();
-
-        themeToggle.addEventListener('click', () => {
-            // Toggle dark class
-            document.documentElement.classList.toggle('dark');
-            
-            // Save preference
-            if (document.documentElement.classList.contains('dark')) {
-                localStorage.theme = 'dark';
-            } else {
-                localStorage.theme = 'light';
-            }
-
-            // Update icon state
-            setIconState();
-        });
-
-
-        // --- Back to Top Button ---
-        const backToTopBtn = document.getElementById('back-to-top');
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                backToTopBtn.classList.remove('hidden');
-            } else {
-                backToTopBtn.classList.add('hidden');
-            }
-        });
-
-        backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // --- Interactive Text Scramble Script ---
-        class TextScramble {
-            constructor(el) {
-                this.el = el;
-                this.phrases = [
-                    this.el.getAttribute('data-text-1'),
-                    this.el.getAttribute('data-text-2'),
-                    this.el.getAttribute('data-text-3')
-                ];
-                this.chars = '!<>-_\\/[]{}—=+*^?#';
-                this.update = this.update.bind(this);
-                this.phraseIndex = 0;
-            }
-
-            setText(newText) {
-                const oldText = this.el.innerText;
-                const length = Math.max(oldText.length, newText.length);
-                const promise = new Promise((resolve) => this.resolve = resolve);
-                this.queue = [];
-                for (let i = 0; i < length; i++) {
-                    const from = oldText[i] || '';
-                    const to = newText[i] || '';
-                    const start = Math.floor(Math.random() * 40);
-                    const end = start + Math.floor(Math.random() * 40);
-                    this.queue.push({ from, to, start, end });
-                }
-                cancelAnimationFrame(this.frameRequest);
-                this.frame = 0;
-                this.update();
-                return promise;
-            }
-
-            update() {
-                let output = '';
-                let complete = 0;
-                for (let i = 0, n = this.queue.length; i < n; i++) {
-                    let { from, to, start, end, char } = this.queue[i];
-                    if (this.frame >= end) {
-                        complete++;
-                        output += to;
-                    } else if (this.frame >= start) {
-                        if (!char || Math.random() < 0.28) {
-                            char = this.randomChar();
-                            this.queue[i].char = char;
-                        }
-                        output += `<span class="text-gray-400 dark:text-gray-600">${char}</span>`;
-                    } else {
-                        output += from;
-                    }
-                }
-                this.el.innerHTML = output;
-                if (complete === this.queue.length) {
-                    this.resolve();
-                } else {
-                    this.frameRequest = requestAnimationFrame(this.update);
-                    this.frame++;
-                }
-            }
-
-            randomChar() {
-                return this.chars[Math.floor(Math.random() * this.chars.length)];
-            }
-        }
-
-        const scrambleEl = document.getElementById('scramble-text');
-        if (scrambleEl) {
-            // FIXED: Corrected typo from TextScSramble to TextScramble
-            const fx = new TextScramble(scrambleEl);
-            let counter = 0;
-            const next = () => {
-                fx.setText(fx.phrases[counter % fx.phrases.length]).then(() => {
-                    setTimeout(next, 3000); // Wait 3 seconds before next scramble
-                });
-                counter++;
-            };
-            setTimeout(next, 1000); // Start after 1 second
-        }
-
-    </script>
+    // ── MOBILE MENU ──
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuOpen = document.getElementById('menu-open');
+    const menuClose = document.getElementById('menu-close');
     
-    <div id="cat-trigger"></div> <img id="peeking-cat" src="peeking-cat.png" alt="A cat peeking from the bottom of the page">
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        menuOpen.classList.toggle('hidden');
+        menuClose.classList.toggle('hidden');
+    });
+    
+    mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            menuOpen.classList.remove('hidden');
+            menuClose.classList.add('hidden');
+        });
+    });
+
+    // ── TEXT SCRAMBLE ──
+    class TextScramble {
+        constructor(el) {
+            this.el = el;
+            this.phrases = [el.dataset.text1, el.dataset.text2, el.dataset.text3];
+            this.chars = '!<>-_\\/[]{}—=+*^?#';
+            this.update = this.update.bind(this);
+            this.phraseIndex = 0;
+        }
+        setText(newText) {
+            const oldText = this.el.innerText;
+            const length = Math.max(oldText.length, newText.length);
+            const promise = new Promise(resolve => this.resolve = resolve);
+            this.queue = [];
+            for (let i = 0; i < length; i++) {
+                const from = oldText[i] || '';
+                const to = newText[i] || '';
+                const start = Math.floor(Math.random() * 40);
+                const end = start + Math.floor(Math.random() * 40);
+                this.queue.push({ from, to, start, end });
+            }
+            cancelAnimationFrame(this.frameRequest);
+            this.frame = 0; this.update(); return promise;
+        }
+        update() {
+            let output = '', complete = 0;
+            for (let i = 0, n = this.queue.length; i < n; i++) {
+                let { from, to, start, end, char } = this.queue[i];
+                if (this.frame >= end) { complete++; output += to; }
+                else if (this.frame >= start) {
+                    if (!char || Math.random() < 0.28) { char = this.chars[Math.floor(Math.random() * this.chars.length)]; this.queue[i].char = char; }
+                    output += `<span style="color:rgba(167,139,250,0.5)">${char}</span>`;
+                } else { output += from; }
+            }
+            this.el.innerHTML = output;
+            if (complete === this.queue.length) this.resolve();
+            else { this.frameRequest = requestAnimationFrame(this.update); this.frame++; }
+        }
+    }
+
+    const scrambleEl = document.getElementById('scramble-text');
+    if (scrambleEl) {
+        const fx = new TextScramble(scrambleEl);
+        let counter = 0;
+        const next = () => {
+            fx.setText(fx.phrases[counter % fx.phrases.length]).then(() => setTimeout(next, 3500));
+            counter++;
+        };
+        setTimeout(next, 800);
+    }
+</script>
 
 </body>
-
 </html>
